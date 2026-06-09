@@ -90,7 +90,7 @@
     </header>
 
     <!-- Navigation Tabs -->
-    <div class="sticky top-0 z-30 bg-[#FAF8F5]/90 backdrop-blur-md py-4 border-b border-brand-200/30">
+    <div id="main-nav" class="sticky top-0 z-30 bg-[#FAF8F5]/90 backdrop-blur-md py-4 border-b border-brand-200/30">
         <div class="max-w-4xl mx-auto px-4">
             <div class="flex overflow-x-auto gap-2 md:grid md:grid-cols-4 bg-brand-100/60 p-1.5 rounded-brand border border-brand-200/40 no-scrollbar">
                 
@@ -674,7 +674,12 @@
                     </div>
 
                     <div class="flex justify-between items-center pt-2">
-                        <h4 class="font-bold text-sm text-brand-text">時段明細與狀態切換</h4>
+                        <div class="flex items-center gap-3">
+                            <h4 class="font-bold text-sm text-brand-text">時段明細與狀態切換</h4>
+                            <button id="bulk-delete-btn" onclick="bulkDeleteSlots()" class="hidden bg-rose-100 text-rose-600 hover:bg-rose-600 hover:text-white px-3 py-1.5 rounded-card text-[10px] font-bold transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-trash-can"></i> 批次刪除選取項目
+                            </button>
+                        </div>
                         <button onclick="addNewSlotRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
                             <i class="fa-solid fa-plus"></i> 新增單一日檔期
                         </button>
@@ -684,6 +689,9 @@
                         <table class="w-full text-left text-xs border-collapse min-w-[700px]">
                             <thead>
                                 <tr class="bg-brand-100 text-brand-text font-bold">
+                                    <th class="p-3 border-b border-brand-200 w-10 text-center">
+                                        <input type="checkbox" id="select-all-slots" onchange="toggleSelectAllSlots(this.checked)" class="rounded accent-brand-500">
+                                    </th>
                                     <th class="p-3 border-b border-brand-200 w-24">日期 (月/日)</th>
                                     <th class="p-3 border-b border-brand-200 w-16">星期</th>
                                     <th class="p-3 border-b border-brand-200">Vivo X300 Ultra</th>
@@ -1532,18 +1540,28 @@ ${blocks.join('\n\n')}
         // =========================================================================
         // 後台管理 - 時段管理與「一鍵批次整月建立」邏輯
         // =========================================================================
+        let selectedSlotIndices = new Set();
+
         function renderAdminSlotsTable() {
             const tableBody = document.getElementById('admin-slots-table-body');
             tableBody.innerHTML = '';
+            
+            // Reset "select all" checkbox if data changed
+            document.getElementById('select-all-slots').checked = (selectedSlotIndices.size === slotsData.length && slotsData.length > 0);
+            updateBulkDeleteBtnVisibility();
 
             slotsData.forEach((slot, idx) => {
                 const tr = document.createElement('tr');
+                const isChecked = selectedSlotIndices.has(idx);
                 tr.innerHTML = `
-                    <td class="p-3 border-b border-brand-100">
-                        <input type="text" value="${slot.date}" onchange="updateAdminSlot(${idx}, 'date', this.value)" class="w-16 bg-brand-50 border border-brand-200 rounded p-1 text-center font-semibold">
+                    <td class="p-3 border-b border-brand-100 text-center">
+                        <input type="checkbox" onchange="toggleSelectSlot(${idx}, this.checked)" ${isChecked ? 'checked' : ''} class="slot-checkbox rounded accent-brand-500">
                     </td>
-                    <td class="p-3 border-b border-brand-100">
-                        <input type="text" value="${slot.day}" onchange="updateAdminSlot(${idx}, 'day', this.value)" class="w-10 bg-brand-50 border border-brand-200 rounded p-1 text-center">
+                    <td class="p-3 border-b border-brand-100 font-sans">
+                        <input type="text" value="${slot.date}" onchange="updateAdminSlot(${idx}, 'date', this.value)" class="w-full bg-brand-50 border border-brand-200 rounded p-1 text-xs font-bold text-brand-text text-center">
+                    </td>
+                    <td class="p-3 border-b border-brand-100 font-sans text-center">
+                        <input type="text" value="${slot.day}" onchange="updateAdminSlot(${idx}, 'day', this.value)" class="w-full bg-transparent border-none p-0 text-xs text-brand-lightText text-center">
                     </td>
                     <td class="p-3 border-b border-brand-100 font-sans">
                         ${makeStateCycleButton(idx, 'phone')}
@@ -1564,6 +1582,45 @@ ${blocks.join('\n\n')}
                 `;
                 tableBody.appendChild(tr);
             });
+        }
+
+        function toggleSelectSlot(idx, checked) {
+            if (checked) selectedSlotIndices.add(idx);
+            else selectedSlotIndices.delete(idx);
+            updateBulkDeleteBtnVisibility();
+        }
+
+        function toggleSelectAllSlots(checked) {
+            if (checked) {
+                slotsData.forEach((_, idx) => selectedSlotIndices.add(idx));
+            } else {
+                selectedSlotIndices.clear();
+            }
+            renderAdminSlotsTable();
+        }
+
+        function updateBulkDeleteBtnVisibility() {
+            const btn = document.getElementById('bulk-delete-btn');
+            if (selectedSlotIndices.size > 0) {
+                btn.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-trash-can"></i> 批次刪除選取項目 (${selectedSlotIndices.size})`;
+            } else {
+                btn.classList.add('hidden');
+            }
+        }
+
+        function bulkDeleteSlots() {
+            if (selectedSlotIndices.size === 0) return;
+            if (confirm(`確定要刪除這 ${selectedSlotIndices.size} 筆日期時段嗎？此操作無法還原。`)) {
+                // Sort indices descending to avoid splice shifting issues
+                const sortedIndices = Array.from(selectedSlotIndices).sort((a, b) => b - a);
+                sortedIndices.forEach(idx => {
+                    slotsData.splice(idx, 1);
+                });
+                selectedSlotIndices.clear();
+                renderAdminSlotsTable();
+                generateSlotsGrid();
+            }
         }
 
         function makeStateCycleButton(idx, field) {
@@ -1895,59 +1952,47 @@ ${blocks.join('\n\n')}
 
                 let newHtml = htmlText;
 
-                // --- Clean redundant code injected by preview environments ---
-                // 1. Remove common injected scripts (like Manus or other platform scripts)
+                // --- 1. Remove preview environment scripts ---
                 newHtml = newHtml.replace(/<script src="https:\/\/manus\.im\/.*?"><\/script>/g, '');
                 newHtml = newHtml.replace(/<script>window\.__MANUS_.*?<\/script>/gs, '');
-                
-                // 2. Remove any injected data-manus-id attributes
                 newHtml = newHtml.replace(/\sdata-manus-id=".*?"/g, '');
 
-                // 3. Clean up UI state (ensure first tab is visible and others hidden)
-                // We use more robust regex to avoid duplicating "hidden" and handle current state
-                const resetTab = (id, isVisible) => {
-                    const regex = new RegExp(`id="${id}" class="tab-content (.*?)"`);
-                    newHtml = newHtml.replace(regex, (match, classes) => {
-                        // Remove all existing "hidden" or "block" to start clean
-                        let cleanClasses = classes.replace(/\bhidden\b/g, '').replace(/\bblock\b/g, '').trim();
-                        return `id="${id}" class="tab-content ${cleanClasses} ${isVisible ? 'block' : 'hidden'}"`;
+                // --- 2. Robust UI State Reset (Price tab active, others hidden) ---
+                // We use a safe replacement that doesn't rely on existing class combinations
+                const tabs = ['price-tab', 'notice-tab', 'faq-tab', 'slots-tab'];
+                tabs.forEach(id => {
+                    const isPrice = id === 'price-tab';
+                    // Match section tag with that ID and capture its classes
+                    const sectionRegex = new RegExp(`(<section\\s+id="${id}"\\s+class=")([^"]*)(")`, 'i');
+                    newHtml = newHtml.replace(sectionRegex, (m, start, classes, end) => {
+                        // Remove all existing visibility classes
+                        let clean = classes.replace(/\b(hidden|block)\b/g, '').replace(/\s+/g, ' ').trim();
+                        return `${start}${clean} ${isPrice ? 'block' : 'hidden'}${end}`;
                     });
-                };
-                resetTab('price-tab', true);
-                resetTab('notice-tab', false);
-                resetTab('faq-tab', false);
-                resetTab('slots-tab', false);
-                
-                // Reset navigation button states to default (Price tab active)
-                const resetBtn = (id, isActive) => {
-                    const regex = new RegExp(`id="${id}" class="(.*?)"`);
-                    const activeClass = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 bg-white text-brand-500 shadow-sm border border-brand-200/30";
-                    const inactiveClass = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500";
-                    newHtml = newHtml.replace(regex, `id="${id}" class="${isActive ? activeClass : inactiveClass}"`);
-                };
-                resetBtn('btn-price-tab', true);
-                resetBtn('btn-notice-tab', false);
-                resetBtn('btn-faq-tab', false);
-                resetBtn('btn-slots-tab', false);
+                });
 
-                // 4. Ensure we only keep content within <html> tags if multiple exist
+                // --- 3. Reset Navigation Buttons ---
+                const btnIds = ['btn-price-tab', 'btn-notice-tab', 'btn-faq-tab', 'btn-slots-tab'];
+                const activeStyle = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 bg-white text-brand-500 shadow-sm border border-brand-200/30";
+                const inactiveStyle = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500";
+                
+                btnIds.forEach(id => {
+                    const isPrice = id === 'btn-price-tab';
+                    const btnRegex = new RegExp(`(<button\\s+[^>]*id="${id}"\\s+class=")([^"]*)(")`, 'i');
+                    newHtml = newHtml.replace(btnRegex, `$1${isPrice ? activeStyle : inactiveStyle}$3`);
+                });
+
+                // --- 4. Data Block Replacement ---
+                newHtml = newHtml.replace(/(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/, `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
+                newHtml = newHtml.replace(/(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/, `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
+                newHtml = newHtml.replace(/(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/, `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
+
+                // --- 5. Ensure <html> wrapper and Doctype ---
                 const htmlMatch = newHtml.match(/<html[\s\S]*?<\/html>/i);
                 if (htmlMatch) {
                     newHtml = htmlMatch[0];
-                    // Prepend doctype if it was lost
-                    if (!newHtml.startsWith('<!DOCTYPE')) {
-                        newHtml = '<!DOCTYPE html>\n' + newHtml;
-                    }
+                    if (!newHtml.startsWith('<!DOCTYPE')) newHtml = '<!DOCTYPE html>\n' + newHtml;
                 }
-
-                const slotsRegex = /(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/;
-                newHtml = newHtml.replace(slotsRegex, `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
-
-                const noticesRegex = /(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/;
-                newHtml = newHtml.replace(noticesRegex, `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
-
-                const faqsRegex = /(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/;
-                newHtml = newHtml.replace(faqsRegex, `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
 
                 const blob = new Blob([newHtml], { type: 'text/html' });
                 const link = document.createElement('a');
