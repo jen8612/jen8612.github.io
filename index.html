@@ -635,8 +635,8 @@
                             <button onclick="exportToICS()" class="text-brand-500 hover:underline font-bold"><i class="fa-regular fa-calendar-plus"></i> 匯出已租檔期為行事曆 (ICS)</button>
                         </div>
                     </div>
-                    <button onclick="exportUpdatedHTML()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2.5 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all whitespace-nowrap hover:scale-105">
-                        <i class="fa-solid fa-download"></i> 匯出並下載更新後網頁
+                    <button onclick="copyFullCodeToClipboard()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all whitespace-nowrap hover:scale-105">
+                        <i class="fa-solid fa-copy"></i> 點我複製完整網頁原始碼 (最穩定更新方式)
                     </button>
                 </div>
 
@@ -733,6 +733,9 @@
 
                     <div id="admin-faqs-container" class="space-y-4">
                         <!-- Populated dynamically -->
+                    </div>
+                    <div id="copy-success-msg" class="hidden text-center text-emerald-600 font-bold text-sm mt-4">
+                        <i class="fa-solid fa-check-circle"></i> 已成功複製！請到 GitHub 全選貼上 index.html 即可。
                     </div>
                 </div>
 
@@ -1943,22 +1946,21 @@ ${blocks.join('\n\n')}
         // 匯出儲存並下載全新 HTML 檔案
         // =========================================================================
         /**
-         * 匯出更新後的 HTML 檔案
-         * 核心理念：使用原始碼模板，僅替換資料，不讀取當前 DOM，確保 100% 穩定性
+         * 複製完整程式碼到剪貼簿
+         * 最穩定的更新方式：直接替換資料並複製原始碼，不經過瀏覽器下載流程
          */
-        function exportUpdatedHTML() {
+        async function copyFullCodeToClipboard() {
             try {
-                // 1. 取得當前頁面的完整 HTML 作為模板 (直接從 textContent 獲取避免編碼問題)
-                // 這裡我們使用一個技巧：在頁面加載時就將原始碼存起來，或者直接抓取當前 document 的外層 HTML
-                // 但為了最保險，我們直接使用 XMLSerializer 獲取乾淨的 DOM 樹
-                let html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                // 1. 取得原始碼模板
+                const response = await fetch(window.location.href);
+                let html = await response.text();
 
-                // 2. 準備資料字串
+                // 2. 準備資料
                 const updatedSlotsStr = JSON.stringify(slotsData, null, 4);
                 const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
                 const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
 
-                // 3. 數據區塊替換
+                // 3. 替換資料區塊
                 html = html.replace(/(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/, 
                     `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
                 html = html.replace(/(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/, 
@@ -1966,45 +1968,39 @@ ${blocks.join('\n\n')}
                 html = html.replace(/(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/, 
                     `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
 
-                // 4. 【關鍵修復】強制重置 UI 狀態，避免匯出時的隱藏狀態被固化
-                // 移除所有可能存在的重複 hidden/block，確保首頁顯示
-                html = html.replace(/id="price-tab" class="tab-content (.*?)"/i, 'id="price-tab" class="tab-content block"');
-                html = html.replace(/id="notice-tab" class="tab-content (.*?)"/i, 'id="notice-tab" class="tab-content hidden"');
-                html = html.replace(/id="faq-tab" class="tab-content (.*?)"/i, 'id="faq-tab" class="tab-content hidden"');
-                html = html.replace(/id="slots-tab" class="tab-content (.*?)"/i, 'id="slots-tab" class="tab-content hidden"');
-                
-                // 重置按鈕樣式
-                const activeBtn = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 bg-white text-brand-500 shadow-sm border border-brand-200/30";
-                const inactiveBtn = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500";
-                html = html.replace(/id="btn-price-tab" class="(.*?)"/i, `id="btn-price-tab" class="${activeBtn}"`);
-                html = html.replace(/id="btn-notice-tab" class="(.*?)"/i, `id="btn-notice-tab" class="${inactiveBtn}"`);
-                html = html.replace(/id="btn-faq-tab" class="(.*?)"/i, `id="btn-faq-tab" class="${inactiveBtn}"`);
-                html = html.replace(/id="btn-slots-tab" class="(.*?)"/i, `id="btn-slots-tab" class="${inactiveBtn}"`);
-
-                // 5. 清理 Manus 環境注入的雜質
+                // 4. 清理環境注入的雜質
                 html = html.replace(/<script src="https:\/\/manus\.im\/.*?"><\/script>/g, '');
                 html = html.replace(/<script>window\.__MANUS_.*?<\/script>/gs, '');
                 html = html.replace(/\sdata-manus-id=".*?"/g, '');
                 
-                // 6. 移除重複的 DOCTYPE 或 html 標籤 (如果有的話)
-                const htmlMatch = html.match(/<html[\s\S]*?<\/html>/i);
-                if (htmlMatch) {
-                    html = "<!DOCTYPE html>\n" + htmlMatch[0];
-                }
+                // 5. 強制重置分頁狀態
+                html = html.replace(/id="price-tab" class="tab-content (.*?)"/i, 'id="price-tab" class="tab-content block"');
+                html = html.replace(/id="notice-tab" class="tab-content (.*?)"/i, 'id="notice-tab" class="tab-content hidden"');
+                html = html.replace(/id="faq-tab" class="tab-content (.*?)"/i, 'id="faq-tab" class="tab-content hidden"');
+                html = html.replace(/id="slots-tab" class="tab-content (.*?)"/i, 'id="slots-tab" class="tab-content hidden"');
 
-                // 7. 下載
-                const blob = new Blob([html], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'index.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            } catch (e) {
-                console.error('Export failed:', e);
-                alert('匯出失敗，請檢查瀏覽器主控台。');
+                // 6. 執行複製
+                const textArea = document.createElement("textarea");
+                textArea.value = html;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                // 7. 顯示成功訊息
+                const msg = document.getElementById('copy-success-msg');
+                if (msg) {
+                    msg.classList.remove('hidden');
+                    setTimeout(() => msg.classList.add('hidden'), 5000);
+                }
+                alert('已成功複製完整程式碼！\n\n請到 GitHub 開啟 index.html 點擊編輯，\n全選 (Ctrl+A) 並貼上 (Ctrl+V) 覆蓋即可完成更新。');
+
+            } catch (err) {
+                console.error('複製失敗:', err);
+                alert('複製失敗，請嘗試手動選取代碼。');
             }
         }
 
