@@ -1931,26 +1931,33 @@ ${blocks.join('\n\n')}
             return html;
         }
 
+        function resetAdminStateInHtml(html) {
+            // Ensure admin-modal is always hidden in the exported HTML
+            html = html.replace(/(<div id="admin-modal" class=")([^"]*?)(")/, (_, p1, classes, p3) => {
+                const c = classes.split(' ').filter(x => x && x !== 'hidden');
+                return p1 + [...c, 'hidden'].join(' ') + p3;
+            });
+            // Ensure admin-editor-screen is always hidden
+            html = html.replace(/(<div id="admin-editor-screen" class=")([^"]*?)(")/, (_, p1, classes, p3) => {
+                const c = classes.split(' ').filter(x => x && x !== 'hidden');
+                return p1 + [...c, 'hidden'].join(' ') + p3;
+            });
+            // Ensure admin-login-screen is always visible
+            html = html.replace(/(<div id="admin-login-screen" class=")([^"]*?)(")/, (_, p1, classes, p3) => {
+                const c = classes.split(' ').filter(x => x && x !== 'hidden');
+                return p1 + c.join(' ') + p3;
+            });
+            return html;
+        }
+
         function buildUpdatedHTML() {
             const updatedSlotsStr = JSON.stringify(slotsData, null, 4);
             const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
             const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
 
-            const adminModal = document.getElementById('admin-modal');
-            const adminEditor = document.getElementById('admin-editor-screen');
-            const adminLogin = document.getElementById('admin-login-screen');
-            const adminModalWasOpen = !adminModal.classList.contains('hidden');
-            const adminEditorWasOpen = adminEditor && !adminEditor.classList.contains('hidden');
-            adminModal.classList.add('hidden');
-            if (adminEditor) adminEditor.classList.add('hidden');
-            if (adminLogin) adminLogin.classList.remove('hidden');
-
             let newHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
             newHtml = stripReplitInjections(newHtml);
-
-            if (adminModalWasOpen) adminModal.classList.remove('hidden');
-            if (adminEditorWasOpen && adminEditor) adminEditor.classList.remove('hidden');
-            if (adminLogin && !adminEditorWasOpen) adminLogin.classList.remove('hidden');
+            newHtml = resetAdminStateInHtml(newHtml);
 
             const slotsRegex = /(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/;
             newHtml = newHtml.replace(slotsRegex, (_, p1, p2, p3) => p1 + '\n        const slotsData = ' + updatedSlotsStr + ';\n        ' + p3);
@@ -2003,21 +2010,9 @@ ${blocks.join('\n\n')}
                 const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
                 const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
 
-                const adminModal = document.getElementById('admin-modal');
-                const adminEditor = document.getElementById('admin-editor-screen');
-                const adminLogin = document.getElementById('admin-login-screen');
-                const adminModalWasOpen = !adminModal.classList.contains('hidden');
-                const adminEditorWasOpen = adminEditor && !adminEditor.classList.contains('hidden');
-                adminModal.classList.add('hidden');
-                if (adminEditor) adminEditor.classList.add('hidden');
-                if (adminLogin) adminLogin.classList.remove('hidden');
-
                 let newHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
                 newHtml = stripReplitInjections(newHtml);
-
-                if (adminModalWasOpen) adminModal.classList.remove('hidden');
-                if (adminEditorWasOpen && adminEditor) adminEditor.classList.remove('hidden');
-                if (adminLogin && !adminEditorWasOpen) adminLogin.classList.remove('hidden');
+                newHtml = resetAdminStateInHtml(newHtml);
 
                 const slotsRegex = /(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/;
                 newHtml = newHtml.replace(slotsRegex, (_, p1, p2, p3) => p1 + '\n        const slotsData = ' + updatedSlotsStr + ';\n        ' + p3);
