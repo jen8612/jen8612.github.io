@@ -125,7 +125,7 @@
     <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
         
         <!-- ================= PAGE 1: PRICE LIST & CALCULATOR ================= -->
-        <section id="price-tab" class="tab-content block space-y-8">
+        <section id="price-tab" class="tab-content block">
             
             <div class="text-center md:text-left mb-6">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
@@ -404,7 +404,7 @@
         </section>
 
         <!-- ================= PAGE 2: BOOKING NOTICE ================= -->
-        <section id="notice-tab" class="tab-content hidden space-y-6">
+        <section id="notice-tab" class="tab-content hidden">
             <div class="text-center md:text-left mb-6">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
@@ -460,7 +460,7 @@
         </section>
 
         <!-- ================= PAGE 3: FAQ ================= -->
-        <section id="faq-tab" class="tab-content hidden space-y-6">
+        <section id="faq-tab" class="tab-content hidden">
             <div class="text-center md:text-left">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
@@ -476,7 +476,7 @@
         </section>
 
         <!-- ================= PAGE 4: AVAILABLE SLOTS ================= -->
-        <section id="slots-tab" class="tab-content hidden space-y-6">
+        <section id="slots-tab" class="tab-content hidden">
             <div class="text-center md:text-left">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
@@ -768,40 +768,490 @@
         
         /* SLOTS_DATA_START */
         const slotsData = [
-            { "date": "06/01", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/02", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/03", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/04", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/05", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/06", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/07", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/08", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/09", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/10", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/11", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/12", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/13", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/14", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/15", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/16", "day": "二", "phone": "available", "lens200": "rented", "lens400": "available", "note": "" },
-            { "date": "06/17", "day": "三", "phone": "rented", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/18", "day": "四", "phone": "available", "lens200": "available", "lens400": "rented", "note": "" },
-            { "date": "06/19", "day": "五", "phone": "available", "lens200": "pending", "lens400": "available", "note": "" },
-            { "date": "06/20", "day": "六", "phone": "rented", "lens200": "rented", "lens400": "rented", "note": "" },
-            { "date": "06/21", "day": "日", "phone": "available", "lens200": "available", "lens400": "unavailable", "note": "" },
-            { "date": "06/22", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/23", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/24", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/25", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/26", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/27", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/28", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/29", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
-            { "date": "06/30", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "" }
-        ];
+    {
+        "date": "06/08",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/09",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/10",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/11",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/12",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/13",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/14",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/15",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/16",
+        "day": "二",
+        "phone": "available",
+        "lens200": "rented",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/17",
+        "day": "三",
+        "phone": "rented",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/18",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "rented",
+        "note": ""
+    },
+    {
+        "date": "06/19",
+        "day": "五",
+        "phone": "available",
+        "lens200": "pending",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/20",
+        "day": "六",
+        "phone": "rented",
+        "lens200": "rented",
+        "lens400": "rented",
+        "note": ""
+    },
+    {
+        "date": "06/21",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "unavailable",
+        "note": ""
+    },
+    {
+        "date": "06/22",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/23",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/24",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/25",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/26",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/27",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/28",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/29",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/30",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/01",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/02",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/03",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/04",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/05",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/06",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/07",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/08",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/09",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/10",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/11",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/12",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/13",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/14",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/15",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/16",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/17",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/18",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/19",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/20",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/21",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/22",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/23",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/24",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/25",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/26",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/27",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/28",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/29",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/30",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    },
+    {
+        "date": "07/31",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": "",
+        "meetTime": ""
+    }
+];
         /* SLOTS_DATA_END */
 
         /* NOTICES_DATA_START */
+        const noticesData = [
+    {
+        "title": "預約細則",
+        "icon": "fa-regular fa-calendar-check",
+        "items": [
+            "須支付「一日租金費用」作為訂金，僅於完成付款後保留檔期，不接受口頭預約。",
+            "請於確認預約後 24 小時內完成付款，逾時自動釋出檔期不另行通知。",
+            "訂金付款後若因個人因素取消、未到或更改時間，訂金恕不退還。",
+            "如遇主辦單位取消或延期活動，得申請免費取消租借或改期，並於公告後三日內告知。逾期視同一般取消，訂金恕不退還。"
+        ]
+    },
+    {
+        "title": "租借時間與逾期",
+        "icon": "fa-regular fa-clock",
+        "items": [
+            "採 24 小時制，租借一日未滿 24 小時仍以一日計算。",
+            "逾期歸還：每小時 NT
         const noticesData = [
             {
                 "title": "預約細則",
@@ -861,27 +1311,74 @@
                 ]
             }
         ];
+        00（未滿一小時以一小時計）。"
+        ]
+    },
+    {
+        "title": "押金方案",
+        "icon": "fa-regular fa-address-card",
+        "items": [
+            "方案 A：需提供雙證件核對（身分證＋健保卡／駕照），並留存其中一項正本 + 押金 NT/* NOTICES_DATA_END */,000。",
+            "方案 B：免證件留存 + 押金 NT$60,000。",
+            "還機時經雙方確認設備無誤後，證件與押金現場退還。"
+        ]
+    },
+    {
+        "title": "面交地點",
+        "icon": "fa-solid fa-map-pin",
+        "items": [
+            "平日（台北 - 可討論）：捷運綠線（南京三民、南京復興）、捷運藍線（市政府、台北車站）。",
+            "假日（桃園）：藝文特區面交。"
+        ]
+    },
+    {
+        "title": "損壞與賠償",
+        "icon": "fa-solid fa-triangle-exclamation",
+        "items": [
+            "交機時雙方共同確認設備狀況，保障彼此權益。",
+            "遺失／被盜／無法修復：依官方原價或維修費較高者賠償。",
+            "螢幕、鏡頭、配件損壞或遺失：依官方維修費或全額售價賠償。"
+        ]
+    },
+    {
+        "title": "注意事項",
+        "icon": "fa-solid fa-shield-halved",
+        "items": [
+            "因場館限制或個人因素無法使用，仍照原規則計費，不予退款。",
+            "不租借未成年人。",
+            "出國使用不需加價，但需事先告知。",
+            "禁止下載未授權 App 或更改系統設定（含 ROOT/越獄）。",
+            "禁止將設備轉租、轉借予第三人。",
+            "現場不提供等待傳輸時間，請自行於歸還前完成備份。",
+            "歸還後將進行設備初始化與資料清除，資料遺失不負責。"
+        ]
+    }
+];
         /* NOTICES_DATA_END */
 
         /* FAQS_DATA_START */
         const faqsData = [
-            {
-                "q": "200mm 與 400mm 增距鏡可以單獨只租借而不租手機嗎？",
-                "a": "可以的！我們支援配件與手機的單純租賃。如果您本來就有相容設備或只想單租增距鏡，200mm 的單租費用為每日 NT$ 250，400mm 的單租費用為每日 NT$ 400。若搭配我們的 Vivo X300 Ultra 手機合租，則可享每日現折 $50 至 $100 的配件組合價！"
-            },
-            {
-                "q": "什麼是 24 小時制？我該如何抓取還機時間？",
-                "a": "24 小時制是指從您實際簽約取機的時間起算，滿 24 小時為一日。例如：您週五晚上 18:00 面交取機，至週六晚上 18:00 前歸還，這樣僅算一日租金。不論是下班、下課後取機，都能獲得完整的使用時間，非常適合準備去演唱會的粉絲。"
-            },
-            {
-                "q": "Vivo X300 Ultra 在演唱會錄影、拍照效果真的好嗎？",
-                "a": "是的！Vivo X300 Ultra 目前被廣泛譽為演唱會拍照與舞台錄影神機。不論是多暗的場館環境、多遠的舞台，再搭配我們的 200mm 或 400mm 增距鏡與專業攝影手把，都能帶給您強烈的特寫臨場感。"
-            },
-            {
-                "q": "面交與歸還地點在哪裡？",
-                "a": "我們主要提供大台北平日（南京三民、南京復興、市政府、台北車站捷運線）以及桃園假日（藝文特區）的面交點收服務。面交時可當場確認手機機況及鏡頭清晰度。詳細面交位置可直接加入我們的官方 LINE 帳號與我們預約討論。"
-            }
-        ];
+    {
+        "q": "200mm 與 400mm 增距鏡可以單獨只租借而不租手機嗎？",
+        "a": "可以的！我們支援配件與手機的單純租賃。如果您本來就有相容設備或只想單租增距鏡，200mm 的單租費用為每日 NT$ 250，400mm 的單租費用為每日 NT$ 400。若搭配我們的 Vivo X300 Ultra 手機合租，則可享每日現折 $50 至 /* FAQS_DATA_START */00 的配件組合價！"
+    },
+    {
+        "q": "什麼是 24 小時制？我該如何抓取還機時間？",
+        "a": "24 小時制是指從您實際簽約取機的時間起算，滿 24 小時為一日。例如：您週五晚上 18:00 面交取機，至週六晚上 18:00 前歸還，這樣僅算一日租金。不論是下班、下課後取機，都能獲得完整的使用時間，非常適合準備去演唱會的粉絲。"
+    },
+    {
+        "q": "Vivo X300 Ultra 在演唱會錄影、拍照效果真的好嗎？",
+        "a": "是的！Vivo X300 Ultra 目前被廣泛譽為演唱會拍照與舞台錄影神機。不論是多暗的場館環境、多遠的舞台，再搭配我們的 200mm 或 400mm 增距鏡與專業攝影手把，都能帶給您強烈的特寫臨場感。"
+    },
+    {
+        "q": "面交與歸還地點在哪裡？",
+        "a": "我們主要提供大台北平日（南京三民、南京復興、市政府、台北車站捷運線）以及桃園假日（藝文特區）的面交點收服務。面交時可當場確認手機機況及鏡頭清晰度。詳細面交位置可直接加入我們的官方 LINE 帳號與我們預約討論。"
+    },
+    {
+        "q": "新增的問題項目內容？",
+        "a": "請於此處輸入您欲說明的完整解答內容。"
+    }
+];
         /* FAQS_DATA_END */
 
         // Dynamic State mapping for UI selection conflict calculation
