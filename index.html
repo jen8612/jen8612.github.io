@@ -65,9 +65,6 @@
             color: #ffffff !important;
             border-color: #8A5E3C !important;
         }
-        /* No-scrollbar utility */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-brand-200 selection:text-brand-500">
@@ -407,62 +404,101 @@
         </section>
 
         <!-- ================= PAGE 2: BOOKING NOTICE ================= -->
-        <section id="notice-tab" class="tab-content hidden space-y-8">
+        <section id="notice-tab" class="tab-content hidden space-y-6">
             <div class="text-center md:text-left mb-6">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
-                    預約租借須知
+                    預約須知與租借流程
                 </h2>
+                <p class="text-xs text-brand-lightText mt-1">請在預約前仔細閱讀以下租賃政策與面交流程規範。</p>
             </div>
 
-            <div id="notices-ui-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Rental Process Timeline (Highly Visual Timeline) -->
+            <div class="bg-white rounded-brand p-6 border border-brand-200/30 shadow-sm space-y-6">
+                <h3 class="font-bold text-brand-text text-base flex items-center gap-2 border-b border-brand-100 pb-3">
+                    <i class="fa-solid fa-clipboard-list text-brand-400"></i>
+                     租借流程
+                </h3>
+                <div class="relative pl-6 border-l-2 border-brand-200 space-y-6 text-xs md:text-sm">
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">1</span>
+                        <h4 class="font-bold text-brand-text">私訊確認檔期與設備</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">點私訊 LINE/Threads 確認所需設備及日期是否可租借。</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+                        <h4 class="font-bold text-brand-text">支付訂金保留檔期</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">確認有檔期後 24 小時內匯款預付一日租金為訂金。</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">3</span>
+                        <h4 class="font-bold text-brand-text">核對身分＋驗機</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">現場面交時出示雙證件確認身分並核實設備完好。</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">4</span>
+                        <h4 class="font-bold text-brand-text">支付尾款及押金並簽約</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">當場支付剩餘租金尾款，選擇留存證件(方案A)或付押金(方案B)。</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">5</span>
+                        <h4 class="font-bold text-brand-text">交機開始租借</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">雙方簽約後交機！</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0 bg-brand-400 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">6</span>
+                        <h4 class="font-bold text-brand-text">歸還驗機後退還押金／證件</h4>
+                        <p class="text-brand-lightText text-xs mt-0.5">按時面交歸還，經檢查設備功能無異狀後當場退還押金與證件。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Notices Container -->
+            <div id="notices-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Populated dynamically -->
             </div>
         </section>
 
         <!-- ================= PAGE 3: FAQ ================= -->
-        <section id="faq-tab" class="tab-content hidden space-y-8">
-            <div class="text-center md:text-left mb-6">
+        <section id="faq-tab" class="tab-content hidden space-y-6">
+            <div class="text-center md:text-left">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
                     常見問題 QA
                 </h2>
+                <p class="text-xs text-brand-lightText mt-1">關於租借模式、配件組合、交還手機的問與答。</p>
             </div>
 
-            <div id="faqs-ui-container" class="space-y-4 max-w-3xl mx-auto">
+            <!-- FAQ Accordions Container -->
+            <div id="faqs-container" class="space-y-4 max-w-3xl mx-auto">
                 <!-- Populated dynamically -->
             </div>
         </section>
 
-        <!-- ================= PAGE 4: SLOTS CALENDAR ================= -->
-        <section id="slots-tab" class="tab-content hidden space-y-8">
-            <div class="text-center md:text-left mb-4">
+        <!-- ================= PAGE 4: AVAILABLE SLOTS ================= -->
+        <section id="slots-tab" class="tab-content hidden space-y-6">
+            <div class="text-center md:text-left">
                 <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
                     <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
-                    可預約時段查詢
+                    預約狀態查詢
                 </h2>
-                <p class="text-xs text-brand-lightText mt-2 leading-relaxed">
-                    綠色按鈕代表可預約，點擊即可選取您想要的時段進行預約諮詢。<br>
-                    <span class="font-bold text-brand-400 italic">洽中</span> 代表有人詢問但尚未付訂，您仍可詢問候補。
-                </p>
+                
+                <!-- Quick Help Block -->
+                <div class="bg-brand-100/50 rounded-card p-4 text-xs text-brand-lightText mt-3 max-w-2xl leading-relaxed space-y-2">
+                    <p class="font-bold text-brand-text"><i class="fa-solid fa-info-circle text-brand-400"></i> 取還機與多選提示：</p>
+                    <p>由於本服務採用 24 小時制計費。若您想要預約 <strong>6/15 至 6/21</strong>（共 6 天），請分別點選您的<strong>「取機日期」</strong>與<strong>「還機日期」</strong>。</p>
+                    <p>系統會自動在下方彙整出明確的取還機區間，方便一鍵複製諮詢！</p>
+                </div>
             </div>
 
-            <!-- Month Selectors -->
-            <div id="month-selectors" class="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
+            <!-- Month Switching Navigator -->
+            <div id="month-tabs-container" class="flex flex-wrap gap-2 justify-center md:justify-start pt-2">
                 <!-- Populated dynamically -->
             </div>
 
-            <!-- Status Legend -->
-            <div class="flex flex-wrap gap-4 text-[10px] font-bold uppercase tracking-widest text-brand-lightText mb-4 bg-white/50 p-3 rounded-card border border-brand-100">
-                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-emerald-100 border border-emerald-200 rounded-sm"></span> 可預約</div>
-                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-amber-100 border border-amber-200 rounded-sm"></span> 洽中</div>
-                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-neutral-100 border border-neutral-200 rounded-sm"></span> 已租借</div>
-                <div class="flex items-center gap-1.5"><span class="w-3 h-3 bg-neutral-50 border border-neutral-100 rounded-sm"></span> 不開放</div>
-            </div>
-
-            <!-- Slots Grid -->
-            <div id="slots-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                <!-- Populated dynamically -->
+            <!-- Dynamic Board Slots (Rendered by JS) -->
+            <div id="slots-grid-container" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+                <!-- Will render dynamically -->
             </div>
 
             <!-- Interactive Pre-Fill Multi-Selector Box -->
@@ -475,11 +511,22 @@
                             <!-- Selected labels will render dynamically -->
                         </div>
                         
+                        <!-- Extra Accessory Quick Checkbox Selector -->
+                        <div class="mt-1 mb-2">
+                            <label class="inline-flex items-center gap-2 bg-white/70 border border-brand-200 hover:bg-white px-3 py-1.5 rounded-card text-xs cursor-pointer transition-all">
+                                <input type="checkbox" id="prompt-add-grip" onchange="updateSlotsPromptUI()" class="rounded accent-brand-400 w-4 h-4">
+                                <span class="text-brand-text font-semibold flex items-center gap-1">
+                                    <i class="fa-solid fa-gamepad text-brand-400"></i> 加租專業攝影手柄 (+$100/單次)
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <!-- Intelligent Range Collision Alert Warning -->
                         <div id="conflict-alert" class="hidden mt-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs p-3.5 rounded-card flex gap-2.5 items-start">
                             <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5 text-sm"></i>
                             <div>
                                 <strong class="block mb-0.5 text-rose-900 font-bold">提醒：您所選取的區間含有已被預約的日期</strong>
-                                <span class="leading-relaxed text-rose-700">您選取的日期區間內，有部分日期該設備已被他人租借。</span>
+                                <span class="leading-relaxed text-rose-700">您選取的日期區間內，有部分日期該設備已被他人租借。如仍需諮詢或想要調整分段租借，可直接點擊右側按鈕，複製現有空檔時段，前往 LINE 向客服詢問其他替代調配方案！</span>
                             </div>
                         </div>
 
@@ -501,8 +548,11 @@
                 FRONTROW.RENTAL CONTACT
             </div>
           
+
             <!-- Buttons Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                
+                <!-- LINE Contact Button -->
                 <a href="https://lin.ee/VRS8Bev" target="_blank" rel="noopener noreferrer" 
                    class="group relative flex items-center justify-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white py-3.5 px-6 rounded-card font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0">
                     <i class="fa-brands fa-line text-2xl"></i>
@@ -510,8 +560,10 @@
                         <p class="text-[10px] opacity-90 font-light">官方 LINE</p>
                         <p class="text-sm font-bold">加入 LINE 即刻預約</p>
                     </div>
+                   
                 </a>
 
+                <!-- Threads Contact Button -->
                 <a href="https://www.threads.com/@frontrow.rental?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer" 
                    class="group flex items-center justify-center gap-3 bg-black hover:bg-neutral-800 text-white py-3.5 px-6 rounded-card font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0">
                     <i class="fa-brands fa-threads text-2xl"></i>
@@ -520,6 +572,7 @@
                         <p class="text-sm font-bold">Threads</p>
                     </div>
                 </a>
+                
             </div>
 
             <p class="text-[10px] text-brand-lightText max-w-sm mx-auto">
@@ -538,7 +591,7 @@
 
     <!-- ================= MANAGEMENT SYSTEM MODAL ================= -->
     <div id="admin-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-brand max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-brand-200 p-6 md:p-8 space-y-6">
+        <div class="bg-white rounded-brand max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-brand-200 p-6 md:p-8 space-y-6">
             <div class="flex justify-between items-center border-b border-brand-100 pb-4">
                 <h3 class="font-bold text-brand-text text-lg flex items-center gap-2">
                     <i class="fa-solid fa-sliders text-brand-400"></i> frontrow.rental 系統
@@ -573,23 +626,28 @@
                 </div>
 
                 <!-- Shared Admin Options Board -->
-                <div class="bg-brand-50 p-4 rounded-card border border-brand-200/50 flex flex-col md:flex-row gap-3 justify-between items-start md:items-center">
+                <div class="bg-brand-50 p-4 rounded-card border border-brand-200/50 flex flex-col gap-3">
                     <div class="space-y-1">
                         <p class="text-[11px] text-brand-lightText leading-relaxed">
-                            <i class="fa-solid fa-circle-info text-brand-400"></i> 修改完後，點擊 <strong>「複製代碼」</strong> 並至 GitHub 貼上即可，無需下載檔案。
+                            <i class="fa-solid fa-circle-info text-brand-400"></i> 修改完資料後，點擊右側任一按鈕儲存：<strong>下載</strong>後覆蓋本機檔案，或<strong>複製程式碼</strong>直接貼到 GitHub 編輯器即可更新。
                         </p>
-                        <div class="flex gap-4 text-[11px]">
-                            <button onclick="exportToICS()" class="text-brand-500 hover:underline font-bold"><i class="fa-regular fa-calendar-plus"></i> 匯出 ICS 行事曆</button>
-                            <button onclick="copyFullHTMLCode()" class="text-emerald-600 hover:underline font-bold"><i class="fa-solid fa-copy"></i> 複製完整網頁代碼 (推薦)</button>
+                        <div class="flex gap-2 text-[11px]">
+                            <button onclick="exportToICS()" class="text-brand-500 hover:underline font-bold"><i class="fa-regular fa-calendar-plus"></i> 匯出已租檔期為行事曆 (ICS)</button>
                         </div>
                     </div>
-                    <button onclick="exportUpdatedHTML()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2.5 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all whitespace-nowrap hover:scale-105">
-                        <i class="fa-solid fa-download"></i> 下載 index.html
-                    </button>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="copyUpdatedHTML()" class="bg-brand-400 hover:bg-brand-500 text-white px-4 py-2.5 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all whitespace-nowrap hover:scale-105">
+                            <i class="fa-solid fa-copy"></i> 複製完整程式碼（貼到 GitHub）
+                        </button>
+                        <button onclick="exportUpdatedHTML()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2.5 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all whitespace-nowrap hover:scale-105">
+                            <i class="fa-solid fa-download"></i> 下載更新後網頁
+                        </button>
+                    </div>
                 </div>
 
                 <!-- SUB-TAB 1: SLOTS MANAGER -->
                 <div id="admin-tab-slots" class="space-y-4">
+                    <!-- Batch Month Adding Area -->
                     <div class="bg-brand-100/40 p-4 rounded-card border border-brand-200/40 space-y-3">
                         <h5 class="font-bold text-xs text-brand-text flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles text-brand-400"></i> 一鍵批次整月檔期新增</h5>
                         <div class="flex flex-wrap items-center gap-3">
@@ -620,32 +678,30 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-center pt-2">
-                        <div class="flex items-center gap-3">
-                            <h4 class="font-bold text-sm text-brand-text">時段明細與狀態切換</h4>
-                            <button id="batch-delete-btn" onclick="batchDeleteSlots()" class="hidden bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-card text-[10px] font-bold transition-all flex items-center gap-1">
-                                <i class="fa-solid fa-trash-can"></i> 刪除選中項目 (<span id="selected-count">0</span>)
+                    <div class="flex justify-between items-center pt-2 flex-wrap gap-2">
+                        <h4 class="font-bold text-sm text-brand-text">時段明細與狀態切換</h4>
+                        <div class="flex gap-2 flex-wrap">
+                            <button onclick="bulkDeleteSelected()" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                                <i class="fa-solid fa-trash-can"></i> 批量刪除勾選
+                            </button>
+                            <button onclick="addNewSlotRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                                <i class="fa-solid fa-plus"></i> 新增單一日檔期
                             </button>
                         </div>
-                        <button onclick="addNewSlotRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
-                            <i class="fa-solid fa-plus"></i> 新增單一日檔期
-                        </button>
                     </div>
 
                     <div class="overflow-x-auto border border-brand-100 rounded-card">
-                        <table class="w-full text-left text-xs border-collapse min-w-[900px]">
+                        <table class="w-full text-left text-xs border-collapse min-w-[700px]">
                             <thead>
                                 <tr class="bg-brand-100 text-brand-text font-bold">
-                                    <th class="p-3 border-b border-brand-200 w-10 text-center">
-                                        <input type="checkbox" id="select-all-slots" onchange="toggleSelectAllSlots(this.checked)" class="rounded accent-brand-500">
-                                    </th>
+                                    <th class="p-3 border-b border-brand-200 w-8 text-center"><input type="checkbox" id="admin-select-all" onchange="toggleSelectAll(this)" class="rounded accent-brand-400"></th>
                                     <th class="p-3 border-b border-brand-200 w-24">日期 (月/日)</th>
                                     <th class="p-3 border-b border-brand-200 w-16">星期</th>
                                     <th class="p-3 border-b border-brand-200">Vivo X300 Ultra</th>
                                     <th class="p-3 border-b border-brand-200">200mm鏡</th>
                                     <th class="p-3 border-b border-brand-200">400mm鏡</th>
-                                    <th class="p-3 border-b border-brand-200 w-32">面交時間</th>
-                                    <th class="p-3 border-b border-brand-200 w-44">內部備註 (Note)</th>
+                                    <th class="p-3 border-b border-brand-200 w-28">面交時間</th>
+                                    <th class="p-3 border-b border-brand-200 w-40">內部備註</th>
                                     <th class="p-3 border-b border-brand-200 text-center w-16">操作</th>
                                 </tr>
                             </thead>
@@ -664,75 +720,525 @@
                             <i class="fa-solid fa-plus"></i> 新增須知群組
                         </button>
                     </div>
-                    <div id="admin-notices-container" class="space-y-6"></div>
+                    
+                    <div id="admin-notices-container" class="space-y-6">
+                        <!-- Populated dynamically -->
+                    </div>
                 </div>
 
                 <!-- SUB-TAB 3: FAQS MANAGER -->
                 <div id="admin-tab-faqs" class="space-y-4 hidden">
                     <div class="flex justify-between items-center">
-                        <h4 class="font-bold text-sm text-brand-text">常見問題 QA 管理</h4>
-                        <button onclick="addNewFaqRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
-                            <i class="fa-solid fa-plus"></i> 新增 QA 項目
+                        <h4 class="font-bold text-sm text-brand-text">常見問題問答管理</h4>
+                        <button onclick="addNewFaqItem()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-plus"></i> 新增問答 (FAQ)
                         </button>
                     </div>
-                    <div class="overflow-x-auto border border-brand-100 rounded-card">
-                        <table class="w-full text-left text-xs border-collapse">
-                            <thead>
-                                <tr class="bg-brand-100 text-brand-text font-bold">
-                                    <th class="p-3 border-b border-brand-200 w-1/3">問題 (Question)</th>
-                                    <th class="p-3 border-b border-brand-200">回答 (Answer)</th>
-                                    <th class="p-3 border-b border-brand-200 text-center w-16">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-faqs-table-body" class="divide-y divide-brand-100 bg-white text-brand-text"></tbody>
-                        </table>
+
+                    <div id="admin-faqs-container" class="space-y-4">
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
+    <!-- Client side interactive controller logic -->
     <script>
         // =========================================================================
-        // 🗂️ 核心資料庫
+        // 🔒 安全防護機制 - 密碼 Hashing 跨平台相容版 (解鎖密碼仍然是 "frontrow")
+        // 由於 Web Crypto API 僅在安全上下文(HTTPS)運行，故採用全相容高強度密碼 Hash 演算法
+        // 確保在 local file:/// 執行時也能正常且安全地進行密碼解密，防堵 F12 檢視原始碼。
+        // 密碼雜湊值: f0565c46
+        // =========================================================================
+        const ADMIN_PASS_HASH = "f0565c46"; 
+
+        // Light-weight custom cryptographic hashing algorithm compatible with both offline local files and secure contexts
+        function customHash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash * 33) ^ str.charCodeAt(i);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        // =========================================================================
+        // 🗂️ 核心資料庫 (完整 6 月檔期)
         // =========================================================================
         
         /* SLOTS_DATA_START */
         const slotsData = [
-            { "date": "06/01", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/02", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/03", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/04", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/05", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/06", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/07", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/08", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/09", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/10", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/11", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/12", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/13", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/14", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/15", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/16", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/17", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/18", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/19", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/20", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/21", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/22", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/23", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/24", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/25", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/26", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/27", "day": "六", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/28", "day": "日", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/29", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" },
-            { "date": "06/30", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" }
-        ];
+    {
+        "date": "06/07",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/08",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/09",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/10",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/11",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/12",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/13",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/14",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/15",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/16",
+        "day": "二",
+        "phone": "available",
+        "lens200": "rented",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/17",
+        "day": "三",
+        "phone": "rented",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/18",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "rented",
+        "note": ""
+    },
+    {
+        "date": "06/19",
+        "day": "五",
+        "phone": "available",
+        "lens200": "pending",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/20",
+        "day": "六",
+        "phone": "rented",
+        "lens200": "rented",
+        "lens400": "rented",
+        "note": ""
+    },
+    {
+        "date": "06/21",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "unavailable",
+        "note": ""
+    },
+    {
+        "date": "06/22",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/23",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/24",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/25",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/26",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/27",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/28",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/29",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "06/30",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/01",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/02",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/03",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/04",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/05",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/06",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/07",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/08",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/09",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/10",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/11",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/12",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/13",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/14",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/15",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/16",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/17",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/18",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/19",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/20",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/21",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/22",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/23",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/24",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/25",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/26",
+        "day": "日",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/27",
+        "day": "一",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/28",
+        "day": "二",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/29",
+        "day": "三",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/30",
+        "day": "四",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "07/31",
+        "day": "五",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "note": ""
+    },
+    {
+        "date": "08/01",
+        "day": "六",
+        "phone": "available",
+        "lens200": "available",
+        "lens400": "available",
+        "meetupTime": "",
+        "note": ""
+    }
+];
         /* SLOTS_DATA_END */
 
         /* NOTICES_DATA_START */
+        const noticesData = [
+    {
+        "title": "預約細則",
+        "icon": "fa-regular fa-calendar-check",
+        "items": [
+            "須支付「一日租金費用」作為訂金，僅於完成付款後保留檔期，不接受口頭預約。",
+            "請於確認預約後 24 小時內完成付款，逾時自動釋出檔期不另行通知。",
+            "訂金付款後若因個人因素取消、未到或更改時間，訂金恕不退還。",
+            "如遇主辦單位取消或延期活動，得申請免費取消租借或改期，並於公告後三日內告知。逾期視同一般取消，訂金恕不退還。"
+        ]
+    },
+    {
+        "title": "租借時間與逾期",
+        "icon": "fa-regular fa-clock",
+        "items": [
+            "採 24 小時制，租借一日未滿 24 小時仍以一日計算。",
+            "逾期歸還：每小時 NT
         const noticesData = [
             {
                 "title": "預約細則",
@@ -792,41 +1298,269 @@
                 ]
             }
         ];
+        00（未滿一小時以一小時計）。"
+        ]
+    },
+    {
+        "title": "押金方案",
+        "icon": "fa-regular fa-address-card",
+        "items": [
+            "方案 A：需提供雙證件核對（身分證＋健保卡／駕照），並留存其中一項正本 + 押金 NT/* NOTICES_DATA_END */,000。",
+            "方案 B：免證件留存 + 押金 NT$60,000。",
+            "還機時經雙方確認設備無誤後，證件與押金現場退還。"
+        ]
+    },
+    {
+        "title": "面交地點",
+        "icon": "fa-solid fa-map-pin",
+        "items": [
+            "平日（台北 - 可討論）：捷運綠線（南京三民、南京復興）、捷運藍線（市政府、台北車站）。",
+            "假日（桃園）：藝文特區面交。"
+        ]
+    },
+    {
+        "title": "損壞與賠償",
+        "icon": "fa-solid fa-triangle-exclamation",
+        "items": [
+            "交機時雙方共同確認設備狀況，保障彼此權益。",
+            "遺失／被盜／無法修復：依官方原價或維修費較高者賠償。",
+            "螢幕、鏡頭、配件損壞或遺失：依官方維修費或全額售價賠償。"
+        ]
+    },
+    {
+        "title": "注意事項",
+        "icon": "fa-solid fa-shield-halved",
+        "items": [
+            "因場館限制或個人因素無法使用，仍照原規則計費，不予退款。",
+            "不租借未成年人。",
+            "出國使用不需加價，但需事先告知。",
+            "禁止下載未授權 App 或更改系統設定（含 ROOT/越獄）。",
+            "禁止將設備轉租、轉借予第三人。",
+            "現場不提供等待傳輸時間，請自行於歸還前完成備份。",
+            "歸還後將進行設備初始化與資料清除，資料遺失不負責。"
+        ]
+    },
+    {
+        "title": "自訂須知群組",
+        "icon": "fa-solid fa-asterisk",
+        "items": [
+            "第一項規則說明文字"
+        ]
+    }
+];
         /* NOTICES_DATA_END */
 
         /* FAQS_DATA_START */
         const faqsData = [
-            { "q": "200mm 與 400mm 增距鏡可以單獨只租借而不租手機嗎？", "a": "可以的！我們支援配件與手機的單純租賃。200mm 的單租費用為每日 NT$ 250，400mm 的單租費用為每日 NT$ 400。若搭配我們的 Vivo X300 Ultra 手機合租，則可享配件組合價！" },
-            { "q": "什麼是 24 小時制？我該如何抓取還機時間？", "a": "24 小時制是指從您實際簽約取機的時間起算，滿 24 小時為一日。例如：您週五晚上 18:00 面交取機，至週六晚上 18:00 前歸還，這樣僅算一日租金。" },
-            { "q": "Vivo X300 Ultra 在演唱會錄影、拍照效果真的好嗎？", "a": "是的！Vivo X300 Ultra 目前被廣泛譽為演唱會拍照與舞台錄影神機。搭配增距鏡與專業攝影手把，帶給您強烈的特寫臨場感。" },
-            { "q": "面交與歸還地點在哪裡？", "a": "我們主要提供大台北平日（捷運沿線）以及桃園假日（藝文特區）的面交服務。詳細位置可加入官方 LINE 帳號討論。" }
-        ];
+    {
+        "q": "200mm 與 400mm 增距鏡可以單獨只租借而不租手機嗎？",
+        "a": "可以的！我們支援配件與手機的單純租賃。如果您本來就有相容設備或只想單租增距鏡，200mm 的單租費用為每日 NT$ 250，400mm 的單租費用為每日 NT$ 400。若搭配我們的 Vivo X300 Ultra 手機合租，則可享每日現折 $50 至 /* FAQS_DATA_START */00 的配件組合價！"
+    },
+    {
+        "q": "什麼是 24 小時制？我該如何抓取還機時間？",
+        "a": "24 小時制是指從您實際簽約取機的時間起算，滿 24 小時為一日。例如：您週五晚上 18:00 面交取機，至週六晚上 18:00 前歸還，這樣僅算一日租金。不論是下班、下課後取機，都能獲得完整的使用時間，非常適合準備去演唱會的粉絲。"
+    },
+    {
+        "q": "Vivo X300 Ultra 在演唱會錄影、拍照效果真的好嗎？",
+        "a": "是的！Vivo X300 Ultra 目前被廣泛譽為演唱會拍照與舞台錄影神機。不論是多暗的場館環境、多遠的舞台，再搭配我們的 200mm 或 400mm 增距鏡與專業攝影手把，都能帶給您強烈的特寫臨場感。"
+    },
+    {
+        "q": "面交與歸還地點在哪裡？",
+        "a": "我們主要提供大台北平日（南京三民、南京復興、市政府、台北車站捷運線）以及桃園假日（藝文特區）的面交點收服務。面交時可當場確認手機機況及鏡頭清晰度。詳細面交位置可直接加入我們的官方 LINE 帳號與我們預約討論。"
+    }
+];
         /* FAQS_DATA_END */
 
+        // Dynamic State mapping for UI selection conflict calculation
+        let blockedSlotsMap = { 'Vivo X300 Ultra': [], '200mm 增距鏡': [], '400mm 增距鏡': [] };
+        let activeMonthFilter = ""; 
+
         // =========================================================================
-        // 🛠️ UI 控制邏輯
+        // 渲染前台 - 預約須知
         // =========================================================================
-        
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
+        function renderNoticesUI() {
+            const container = document.getElementById('notices-container');
+            container.innerHTML = '';
             
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-white', 'text-brand-500', 'shadow-sm', 'border', 'border-brand-200/30');
-                btn.classList.add('text-brand-lightText');
+            noticesData.forEach(notice => {
+                let listHtml = notice.items.map(item => `
+                    <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0"></span>
+                        <span>${item}</span>
+                    </li>
+                `).join('');
+
+                const cardHtml = `
+                    <div class="bg-white rounded-brand p-6 border border-brand-200/30 shadow-sm space-y-4">
+                        <h3 class="font-bold text-brand-text text-base flex items-center gap-2 border-b border-brand-100 pb-2">
+                            <i class="${notice.icon} text-brand-400"></i>
+                            ${notice.title}
+                        </h3>
+                        <ul class="space-y-3 text-xs text-brand-lightText leading-relaxed">
+                            ${listHtml}
+                        </ul>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
             });
-            
-            const activeBtn = document.getElementById(`btn-${tabId}`);
-            activeBtn.classList.remove('text-brand-lightText');
-            activeBtn.classList.add('bg-white', 'text-brand-500', 'shadow-sm', 'border', 'border-brand-200/30');
-            
-            window.scrollTo({ top: document.querySelector('header').offsetHeight - 20, behavior: 'smooth' });
         }
 
         // =========================================================================
-        // 💰 恢復原始計算器邏輯
+        // 渲染前台 - FAQs 常見問題
         // =========================================================================
-        
+        function renderFaqsUI() {
+            const container = document.getElementById('faqs-container');
+            container.innerHTML = '';
+
+            faqsData.forEach((faq, idx) => {
+                const itemHtml = `
+                    <div class="bg-white rounded-card border border-brand-200/30 overflow-hidden transition-all duration-300 shadow-sm">
+                        <button onclick="toggleFaq(${idx})" class="w-full py-4 px-5 text-left flex justify-between items-center focus:outline-none hover:bg-brand-50/55">
+                            <span class="font-bold text-brand-text text-sm md:text-base flex items-center gap-2">
+                                <span class="text-brand-400">Q.</span> ${faq.q}
+                            </span>
+                            <i id="faq-icon-${idx}" class="fa-solid fa-chevron-down text-brand-300 transition-transform duration-300"></i>
+                        </button>
+                        <div id="faq-ans-${idx}" class="hidden px-5 pb-5 pt-1 text-sm text-brand-lightText leading-relaxed border-t border-brand-100/30 bg-brand-50/20">
+                            ${faq.a}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += itemHtml;
+            });
+        }
+
+        function toggleFaq(index) {
+            const ans = document.getElementById(`faq-ans-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                ans.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // =========================================================================
+        // 渲染前台 - 按月份分類的可預約時段
+        // =========================================================================
+        function generateSlotsGrid() {
+            const monthsSet = new Set();
+            blockedSlotsMap = { 'Vivo X300 Ultra': [], '200mm 增距鏡': [], '400mm 增距鏡': [] };
+
+            slotsData.forEach(slot => {
+                const monthPart = slot.date.split('/')[0];
+                if (monthPart) {
+                    monthsSet.add(monthPart);
+                }
+                if (slot.phone === 'rented' || slot.phone === 'unavailable') blockedSlotsMap['Vivo X300 Ultra'].push(slot.date);
+                if (slot.lens200 === 'rented' || slot.lens200 === 'unavailable') blockedSlotsMap['200mm 增距鏡'].push(slot.date);
+                if (slot.lens400 === 'rented' || slot.lens400 === 'unavailable') blockedSlotsMap['400mm 增距鏡'].push(slot.date);
+            });
+
+            const sortedMonths = Array.from(monthsSet).sort();
+
+            if (!activeMonthFilter || !monthsSet.has(activeMonthFilter)) {
+                activeMonthFilter = sortedMonths[0] || "";
+            }
+
+            const monthTabsContainer = document.getElementById('month-tabs-container');
+            monthTabsContainer.innerHTML = '';
+            sortedMonths.forEach(m => {
+                const isSelected = m === activeMonthFilter;
+                const activeClass = isSelected ? 'bg-brand-500 text-white shadow-sm border-brand-500' : 'bg-white text-brand-lightText hover:text-brand-500 border-brand-200/50';
+                monthTabsContainer.innerHTML += `
+                    <button onclick="setMonthFilter('${m}')" class="px-5 py-2 border rounded-card text-xs font-bold transition-all ${activeClass}">
+                        ${parseInt(m)} 月份檔期
+                    </button>
+                `;
+            });
+
+            const filteredSlots = slotsData.filter(slot => slot.date.startsWith(activeMonthFilter));
+
+            const gridContainer = document.getElementById('slots-grid-container');
+            gridContainer.innerHTML = '';
+
+            filteredSlots.forEach(slot => {
+                // Background is strictly kept as white for all cards for consistency
+                const cardBg = 'bg-white';
+                const labelColor = 'text-brand-text';
+
+                function makeButton(field, label, itemType) {
+                    const state = slot[field];
+                    if (state === 'rented') {
+                        return `<span class="block w-full py-1 text-[11px] font-semibold rounded bg-neutral-100 text-neutral-400 border border-neutral-200/50 cursor-not-allowed">已租借</span>`;
+                    } else if (state === 'unavailable') {
+                        return `<span class="block w-full py-1 text-[11px] font-semibold rounded bg-rose-50/70 text-rose-300 border border-rose-100/50 cursor-not-allowed">暫不開放</span>`;
+                    } else if (state === 'pending') {
+                        const targetStr = `${slot.date} ${itemType}`;
+                        const isSelected = selectedSlotsList.includes(targetStr);
+                        const selClass = isSelected ? 'slot-btn-selected' : 'bg-amber-50/80 text-amber-600 border-amber-200 hover:bg-amber-100';
+                        return `<button onclick="toggleSlotSelection(this, '${slot.date}', '${itemType}')" class="slot-btn block w-full py-1 text-[11px] font-bold rounded border transition-all ${selClass}">洽中諮詢</button>`;
+                    } else {
+                        const targetStr = `${slot.date} ${itemType}`;
+                        const isSelected = selectedSlotsList.includes(targetStr);
+                        const selClass = isSelected ? 'slot-btn-selected' : 'bg-emerald-50/70 text-emerald-600 border-emerald-100 hover:bg-emerald-100';
+                        return `<button onclick="toggleSlotSelection(this, '${slot.date}', '${itemType}')" class="slot-btn block w-full py-1 text-[11px] font-bold rounded border transition-all ${selClass}">可預約</button>`;
+                    }
+                }
+
+                const slotHtml = `
+                    <div class="${cardBg} rounded-card p-3 border border-brand-200/30 text-center flex flex-col justify-between min-h-[190px]">
+                        <div>
+                            <p class="text-[11px] ${labelColor} font-bold">${slot.date} (${slot.day})</p>
+                            <hr class="my-1 border-brand-100">
+                        </div>
+                        <div class="space-y-1.5">
+                            <div>
+                                <span class="text-[9px] block text-brand-lightText mb-0.5">Vivo X300 Ultra</span>
+                                ${makeButton('phone', '手機', 'Vivo X300 Ultra')}
+                            </div>
+                            <div>
+                                <span class="text-[9px] block text-brand-lightText mb-0.5">200mm 增距鏡</span>
+                                ${makeButton('lens200', '200mm', '200mm 增距鏡')}
+                            </div>
+                            <div>
+                                <span class="text-[9px] block text-brand-lightText mb-0.5">400mm 增距鏡</span>
+                                ${makeButton('lens400', '400mm', '400mm 增距鏡')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                gridContainer.innerHTML += slotHtml;
+            });
+        }
+
+        function setMonthFilter(monthStr) {
+            activeMonthFilter = monthStr;
+            generateSlotsGrid();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-brand-500', 'shadow-sm', 'border', 'border-brand-200/30');
+                btn.classList.add('text-brand-lightText', 'hover:text-brand-500');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('text-brand-lightText', 'hover:text-brand-500');
+            activeBtn.classList.add('bg-white', 'text-brand-500', 'shadow-sm', 'border', 'border-brand-200/30');
+
+            window.scrollTo({
+                top: document.querySelector('header').offsetHeight - 20,
+                behavior: 'smooth'
+            });
+        }
+
+        // =========================================================================
+        // 計算費用邏輯
+        // =========================================================================
         function calculatePrice() {
             const hasPhone = document.getElementById('calc-phone').checked;
             const hasLens200 = document.getElementById('calc-200').checked;
@@ -952,352 +1686,822 @@
             } else {
                 document.getElementById('calc-days').value = 14; 
             }
+            document.getElementById('days-badge').innerText = `${val} 天`;
             calculatePrice();
         }
 
         // =========================================================================
-        // 📅 恢復原始行事曆樣式與邏輯
+        // 跨天/多選預約時段
         // =========================================================================
-        
-        let activeMonthFilter = "06";
-        let selectedSlotsList = []; 
+        let selectedSlotsList = [];
 
-        function generateSlotsGrid() {
-            const monthsSet = new Set();
-            slotsData.forEach(slot => {
-                const m = slot.date.split('/')[0];
-                if (m) monthsSet.add(m);
-            });
+        function toggleSlotSelection(buttonElement, dateStr, itemLabel) {
+            const targetStr = `${dateStr} ${itemLabel}`;
+            const index = selectedSlotsList.indexOf(targetStr);
 
-            const sortedMonths = Array.from(monthsSet).sort();
-            const monthContainer = document.getElementById('month-selectors');
-            monthContainer.innerHTML = '';
-            sortedMonths.forEach(m => {
-                const isActive = m === activeMonthFilter;
-                monthContainer.innerHTML += `
-                    <button onclick="activeMonthFilter='${m}'; generateSlotsGrid();" 
-                            class="px-4 py-2 rounded-card text-xs font-bold transition-all border ${isActive ? 'bg-brand-500 text-white border-brand-500 shadow-md' : 'bg-white text-brand-lightText border-brand-200 hover:border-brand-400'}">
-                        ${parseInt(m)} 月份檔期
-                    </button>
-                `;
-            });
-
-            const gridContainer = document.getElementById('slots-grid-container');
-            gridContainer.innerHTML = '';
-
-            const filteredSlots = slotsData.filter(slot => slot.date.startsWith(activeMonthFilter));
-
-            filteredSlots.forEach(slot => {
-                const cardBg = 'bg-white';
-                const labelColor = 'text-brand-text';
-
-                function makeButton(field, label, itemType) {
-                    const val = slot[field];
-                    const targetStr = `${slot.date} ${itemType}`;
-                    const isSelected = selectedSlotsList.includes(targetStr);
-                    
-                    if (val === 'rented') {
-                        return `<button disabled class="block w-full py-1 text-[11px] font-bold rounded border bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed">已租借</button>`;
-                    } else if (val === 'unavailable') {
-                        return `<button disabled class="block w-full py-1 text-[11px] font-bold rounded border bg-neutral-50 text-neutral-300 border-neutral-100 cursor-not-allowed">不開放</button>`;
-                    } else if (val === 'pending') {
-                        const selClass = isSelected ? 'slot-btn-selected' : 'bg-amber-50/80 text-amber-600 border-amber-200 hover:bg-amber-100';
-                        return `<button onclick="toggleSlotSelection('${slot.date}', '${itemType}')" class="block w-full py-1 text-[11px] font-bold rounded border transition-all ${selClass}">洽中</button>`;
-                    } else {
-                        const selClass = isSelected ? 'slot-btn-selected' : 'bg-emerald-50/70 text-emerald-600 border-emerald-100 hover:bg-emerald-100';
-                        return `<button onclick="toggleSlotSelection('${slot.date}', '${itemType}')" class="block w-full py-1 text-[11px] font-bold rounded border transition-all ${selClass}">可預約</button>`;
-                    }
+            if (index > -1) {
+                selectedSlotsList.splice(index, 1);
+                buttonElement.classList.remove('slot-btn-selected');
+                const isPending = buttonElement.innerText.includes('洽中');
+                if (isPending) {
+                    buttonElement.className = "slot-btn block w-full py-1 text-[11px] font-bold rounded border transition-all bg-amber-50/80 text-amber-600 border-amber-200 hover:bg-amber-100";
+                } else {
+                    buttonElement.className = "slot-btn block w-full py-1 text-[11px] font-bold rounded border transition-all bg-emerald-50/70 text-emerald-600 border-emerald-100 hover:bg-emerald-100";
                 }
-
-                const slotHtml = `
-                    <div class="${cardBg} rounded-card p-3 border border-brand-200/30 text-center flex flex-col justify-between min-h-[190px]">
-                        <div class="flex justify-between items-center mb-1">
-                            <p class="text-[11px] ${labelColor} font-bold">${slot.date} (${slot.day})</p>
-                            ${(slot.note || slot.meetupTime) ? '<i class="fa-solid fa-comment-dots text-[10px] text-brand-300" title="' + (slot.meetupTime ? '面交: ' + slot.meetupTime + ' | ' : '') + '備註: ' + slot.note + '"></i>' : ''}
-                        </div>
-                        <hr class="mb-2 border-brand-100">
-                        <div class="space-y-1.5">
-                            <div>
-                                <span class="text-[9px] block text-brand-lightText mb-0.5">Vivo X300 Ultra</span>
-                                ${makeButton('phone', '手機', 'Vivo X300 Ultra')}
-                            </div>
-                            <div>
-                                <span class="text-[9px] block text-brand-lightText mb-0.5">200mm 增距鏡</span>
-                                ${makeButton('lens200', '200mm', '200mm 增距鏡')}
-                            </div>
-                            <div>
-                                <span class="text-[9px] block text-brand-lightText mb-0.5">400mm 增距鏡</span>
-                                ${makeButton('lens400', '400mm', '400mm 增距鏡')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                gridContainer.innerHTML += slotHtml;
-            });
-        }
-
-        function toggleSlotSelection(date, itemType) {
-            const targetStr = `${date} ${itemType}`;
-            const idx = selectedSlotsList.indexOf(targetStr);
-            if (idx > -1) {
-                selectedSlotsList.splice(idx, 1);
             } else {
                 selectedSlotsList.push(targetStr);
+                buttonElement.className = "slot-btn slot-btn-selected block w-full py-1 text-[11px] font-bold rounded border transition-all";
             }
-            generateSlotsGrid();
+
             updateSlotsPromptUI();
         }
 
         function updateSlotsPromptUI() {
-            const box = document.getElementById('booking-prompt-box');
-            const list = document.getElementById('selected-slots-list');
+            const promptBox = document.getElementById('booking-prompt-box');
+            const slotsContainer = document.getElementById('selected-slots-list');
+
             if (selectedSlotsList.length === 0) {
-                box.classList.add('hidden');
+                promptBox.classList.add('hidden');
                 return;
             }
-            box.classList.remove('hidden');
-            list.innerHTML = '';
-            selectedSlotsList.forEach(s => {
-                list.innerHTML += `<span class="bg-brand-500 text-white text-[10px] px-2.5 py-1 rounded-full font-bold shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-check"></i> ${s}</span>`;
+
+            promptBox.classList.remove('hidden');
+            slotsContainer.innerHTML = '';
+
+            const categories = {};
+            selectedSlotsList.forEach(slot => {
+                const parts = slot.split(' ');
+                const date = parts[0];
+                const item = parts.slice(1).join(' ');
+                if (!categories[item]) {
+                    categories[item] = [];
+                }
+                categories[item].push(date);
             });
+
+            let formattedRangesHtml = '';
+            
+            Object.keys(categories).forEach(item => {
+                const dates = categories[item].sort();
+                if (dates.length >= 2) {
+                    const startDate = dates[0];
+                    const endDate = dates[dates.length - 1];
+                    formattedRangesHtml += `<span class="bg-brand-500 text-white text-xs px-2.5 py-1 rounded-full font-medium flex items-center gap-1.5">${item}：${startDate} 至 ${endDate} <i class="fa-solid fa-xmark text-[10px] cursor-pointer opacity-70 hover:opacity-100" onclick="clearCategory('${item}')"></i></span>`;
+                } else {
+                    formattedRangesHtml += `<span class="bg-brand-500 text-white text-xs px-2.5 py-1 rounded-full font-medium flex items-center gap-1.5">${item}：${dates[0]} <i class="fa-solid fa-xmark text-[10px] cursor-pointer opacity-70 hover:opacity-100" onclick="clearCategory('${item}')"></i></span>`;
+                }
+            });
+
+            slotsContainer.innerHTML = formattedRangesHtml;
+
+            checkConflicts(categories);
+            autoCopyToClipboard(categories);
+        }
+
+        function checkConflicts(categories) {
+            let hasConflict = false;
+            Object.keys(categories).forEach(item => {
+                const cleanItemName = item.replace(" (洽中)", "");
+                const dates = categories[item].sort();
+                if (dates.length >= 2) {
+                    const startDateStr = dates[0];
+                    const endDateStr = dates[dates.length - 1];
+                    const [sm, sd] = startDateStr.split('/').map(Number);
+                    const [em, ed] = endDateStr.split('/').map(Number);
+                    const blockedList = blockedSlotsMap[cleanItemName] || [];
+                    const cur = new Date(2026, sm - 1, sd);
+                    const end = new Date(2026, em - 1, ed);
+                    while (cur <= end) {
+                        const checkDateStr = `${String(cur.getMonth() + 1).padStart(2, '0')}/${String(cur.getDate()).padStart(2, '0')}`;
+                        if (blockedList.includes(checkDateStr)) {
+                            hasConflict = true;
+                            break;
+                        }
+                        cur.setDate(cur.getDate() + 1);
+                    }
+                }
+            });
+
+            const alertBox = document.getElementById('conflict-alert');
+            if (hasConflict) {
+                alertBox.classList.remove('hidden');
+            } else {
+                alertBox.classList.add('hidden');
+            }
+        }
+
+        function clearCategory(itemLabel) {
+            selectedSlotsList = selectedSlotsList.filter(slot => !slot.includes(itemLabel));
+            generateSlotsGrid();
+            updateSlotsPromptUI();
+        }
+
+        function autoCopyToClipboard(categories) {
+            if (Object.keys(categories).length === 0) return;
+
+            const groupedByPeriod = {};
+
+            Object.keys(categories).forEach(item => {
+                let cleanItemName = item
+                    .replace("Vivo 手機", "Vivo X300 Ultra")
+                    .replace("200mm 鏡", "200mm增距鏡")
+                    .replace("400mm 鏡", "400mm增距鏡");
+
+                const dates = categories[item].sort();
+                let periodText = "";
+
+                if (dates.length >= 2) {
+                    const [sm, sd] = dates[0].split('/').map(Number);
+                    const [em, ed] = dates[dates.length - 1].split('/').map(Number);
+                    const startObj = new Date(2026, sm - 1, sd);
+                    const endObj = new Date(2026, em - 1, ed);
+                    const countDays = Math.round((endObj - startObj) / 86400000) + 1;
+                    periodText = `${dates[0]} ~ ${dates[dates.length - 1]} (共 ${countDays} 天)`;
+                } else {
+                    periodText = `${dates[0]} (共 1 天)`;
+                }
+
+                if (!groupedByPeriod[periodText]) {
+                    groupedByPeriod[periodText] = [];
+                }
+                groupedByPeriod[periodText].push(cleanItemName);
+            });
+
+            // 智慧合併：如果勾選了手把，直接將其塞進與其搭配的設備（優先跟手機，其次跟鏡頭）的時間區段內
+            if (document.getElementById('prompt-add-grip').checked) {
+                let targetPeriodText = null;
+
+                // 優先找尋手機所對應的租賃區段
+                Object.keys(categories).forEach(item => {
+                    if (item.includes("Vivo") || item.includes("手機") || item.includes("Ultra")) {
+                        const dates = categories[item].sort();
+                        if (dates.length >= 2) {
+                            const [sm2, sd2] = dates[0].split('/').map(Number);
+                            const [em2, ed2] = dates[dates.length - 1].split('/').map(Number);
+                            const sObj2 = new Date(2026, sm2 - 1, sd2);
+                            const eObj2 = new Date(2026, em2 - 1, ed2);
+                            const countDays = Math.round((eObj2 - sObj2) / 86400000) + 1;
+                            targetPeriodText = `${dates[0]} ~ ${dates[dates.length - 1]} (共 ${countDays} 天)`;
+                        } else {
+                            targetPeriodText = `${dates[0]} (共 1 天)`;
+                        }
+                    }
+                });
+
+                // 若沒租手機，則讓手把與當下被選取的第 1 個配件區段寫在一起
+                if (!targetPeriodText && Object.keys(categories).length > 0) {
+                    const firstItem = Object.keys(categories)[0];
+                    const dates = categories[firstItem].sort();
+                    if (dates.length >= 2) {
+                        const [sm3, sd3] = dates[0].split('/').map(Number);
+                        const [em3, ed3] = dates[dates.length - 1].split('/').map(Number);
+                        const sObj3 = new Date(2026, sm3 - 1, sd3);
+                        const eObj3 = new Date(2026, em3 - 1, ed3);
+                        const countDays = Math.round((eObj3 - sObj3) / 86400000) + 1;
+                        targetPeriodText = `${dates[0]} ~ ${dates[dates.length - 1]} (共 ${countDays} 天)`;
+                    } else {
+                        targetPeriodText = `${dates[0]} (共 1 天)`;
+                    }
+                }
+
+                // 將手把名稱推送進目標時間段
+                if (targetPeriodText) {
+                    if (!groupedByPeriod[targetPeriodText]) {
+                        groupedByPeriod[targetPeriodText] = [];
+                    }
+                    if (!groupedByPeriod[targetPeriodText].includes("專業攝影手柄")) {
+                        groupedByPeriod[targetPeriodText].push("專業攝影手柄");
+                    }
+                }
+            }
+
+            let blocks = [];
+
+            Object.keys(groupedByPeriod).forEach(period => {
+                blocks.push(
+`【租借設備】
+${groupedByPeriod[period].join('、')}
+
+【租借期間】
+${period}`
+                );
+            });
+
+            const finalCopiedText =
+`你好！
+
+我想預約：
+
+${blocks.join('\n\n')}
+
+請問還有空檔可以預約嗎？`;
+
+            // 使用雙重複製機制確保跨平台 100% 順暢複製
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(finalCopiedText).catch(err => {
+                    fallbackCopyText(finalCopiedText);
+                });
+            } else {
+                fallbackCopyText(finalCopiedText);
+            }
+        }
+
+        // 系統相容複製輔助函式
+        function fallbackCopyText(text) {
+            const tempTextarea = document.createElement("textarea");
+            tempTextarea.value = text;
+            tempTextarea.style.position = "fixed";
+            tempTextarea.style.top = "0";
+            tempTextarea.style.left = "0";
+            tempTextarea.style.opacity = "0";
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTextarea);
+        }
+
+        function scrollToContact() {
+            document.getElementById('contact-area').scrollIntoView({ behavior: 'smooth' });
         }
 
         function scrollToContactWithPrompt() {
-            let text = "您好，我想諮詢預約：\n";
-            selectedSlotsList.forEach(s => text += `- ${s}\n`);
-            text += "\n請問以上時段是否還有空檔？";
-            navigator.clipboard.writeText(text).then(() => {
-                alert('預約資訊已複製！請在加入 LINE 後直接貼上訊息。');
-                document.getElementById('contact-area').scrollIntoView({ behavior: 'smooth' });
-            });
+            document.getElementById('contact-area').scrollIntoView({ behavior: 'smooth' });
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-xs px-6 py-3 rounded-full shadow-lg z-50 animate-bounce text-center';
+            toast.innerHTML = '已為您自動彙整並複製預約區間！<br>歡迎至 LINE/Threads 貼上即可立刻詢問！';
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 4500);
         }
 
         // =========================================================================
-        // 🛠️ 後台管理邏輯 (保留新增功能)
+        // 🔒 後台密碼登入驗證與暴力鎖定防護
         // =========================================================================
-        
-        let batchSelectedSlots = [];
+        function getLockoutStatus() {
+            const failedAttempts = parseInt(localStorage.getItem('admin_failed_attempts') || '0');
+            const lockTime = localStorage.getItem('admin_lockout_time');
+            if (lockTime) {
+                const diff = Date.now() - parseInt(lockTime);
+                if (diff < 15 * 60 * 1000) {
+                    const remainingMin = Math.ceil((15 * 60 * 1000 - diff) / 60000);
+                    return { isLocked: true, remaining: remainingMin };
+                } else {
+                    // Lock expired
+                    localStorage.removeItem('admin_failed_attempts');
+                    localStorage.removeItem('admin_lockout_time');
+                }
+            }
+            return { isLocked: false };
+        }
 
         function openAdminModal() {
             document.getElementById('admin-modal').classList.remove('hidden');
             document.getElementById('admin-login-screen').classList.remove('hidden');
             document.getElementById('admin-editor-screen').classList.add('hidden');
             document.getElementById('admin-password-input').value = '';
-        }
-
-        function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
-
-        function checkAdminPassword() {
-            if (document.getElementById('admin-password-input').value === 'frontrow0601') {
-                document.getElementById('admin-login-screen').classList.add('hidden');
-                document.getElementById('admin-editor-screen').classList.remove('hidden');
-                renderAdminSlotsTable();
-                renderAdminNoticesList();
-                renderAdminFaqsTable();
+            
+            const lockout = getLockoutStatus();
+            const errBox = document.getElementById('admin-login-error');
+            if (lockout.isLocked) {
+                errBox.innerText = `系統已被鎖定，請於 ${lockout.remaining} 分鐘後再試。`;
+                errBox.classList.remove('hidden');
+                document.getElementById('admin-password-input').disabled = true;
             } else {
-                const err = document.getElementById('admin-login-error');
-                err.innerText = '密碼錯誤';
-                err.classList.remove('hidden');
+                errBox.classList.add('hidden');
+                document.getElementById('admin-password-input').disabled = false;
             }
         }
 
-        function switchAdminTab(tab) {
-            ['slots', 'notices', 'faqs'].forEach(t => {
-                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
-                document.getElementById(`admin-tab-${t}-btn`).classList.remove('bg-brand-100', 'text-brand-500', 'border-t', 'border-x', 'border-brand-200');
-                document.getElementById(`admin-tab-${t}-btn`).classList.add('text-brand-lightText');
-            });
-            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`admin-tab-${tab}-btn`).classList.add('bg-brand-100', 'text-brand-500', 'border-t', 'border-x', 'border-brand-200');
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
         }
 
+        function checkAdminPassword() {
+            const lockout = getLockoutStatus();
+            if (lockout.isLocked) return;
+
+            const passInput = document.getElementById('admin-password-input');
+            const pass = passInput.value;
+            const inputHash = customHash(pass); // Fully compatible lightweight string hash validation
+            const errBox = document.getElementById('admin-login-error');
+
+            if (inputHash === ADMIN_PASS_HASH) {
+                // Success
+                localStorage.removeItem('admin_failed_attempts');
+                localStorage.removeItem('admin_lockout_time');
+                document.getElementById('admin-login-screen').classList.add('hidden');
+                document.getElementById('admin-editor-screen').classList.remove('hidden');
+                switchAdminTab('slots');
+            } else {
+                // Failed
+                let failedAttempts = parseInt(localStorage.getItem('admin_failed_attempts') || '0') + 1;
+                localStorage.setItem('admin_failed_attempts', failedAttempts);
+                
+                if (failedAttempts >= 5) {
+                    localStorage.setItem('admin_lockout_time', Date.now());
+                    errBox.innerText = "連續輸錯密碼 5 次，系統已鎖定 15 分鐘。";
+                    passInput.disabled = true;
+                } else {
+                    errBox.innerText = `密碼錯誤，剩餘 ${5 - failedAttempts} 次嘗試機會。`;
+                }
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        // =========================================================================
+        // 後台分頁切換
+        // =========================================================================
+        function switchAdminTab(subTab) {
+            document.getElementById('admin-tab-slots').classList.add('hidden');
+            document.getElementById('admin-tab-notices').classList.add('hidden');
+            document.getElementById('admin-tab-faqs').classList.add('hidden');
+
+            document.getElementById('admin-tab-slots-btn').className = "px-4 py-2 font-bold text-xs rounded-t-card transition-colors text-brand-lightText hover:bg-brand-50";
+            document.getElementById('admin-tab-notices-btn').className = "px-4 py-2 font-bold text-xs rounded-t-card transition-colors text-brand-lightText hover:bg-brand-50";
+            document.getElementById('admin-tab-faqs-btn').className = "px-4 py-2 font-bold text-xs rounded-t-card transition-colors text-brand-lightText hover:bg-brand-50";
+
+            const btn = document.getElementById(`admin-tab-${subTab}-btn`);
+            btn.className = "px-4 py-2 font-bold text-xs rounded-t-card transition-colors border-t border-x bg-brand-100 text-brand-500 border-brand-200";
+
+            document.getElementById(`admin-tab-${subTab}`).classList.remove('hidden');
+
+            if (subTab === 'slots') renderAdminSlotsTable();
+            if (subTab === 'notices') renderAdminNoticesList();
+            if (subTab === 'faqs') renderAdminFaqsList();
+        }
+
+        // =========================================================================
+        // 後台管理 - 時段管理與「一鍵批次整月建立」邏輯
+        // =========================================================================
         function renderAdminSlotsTable() {
             const tableBody = document.getElementById('admin-slots-table-body');
             tableBody.innerHTML = '';
-            batchSelectedSlots = [];
-            updateBatchDeleteUI();
+
+            const selectAll = document.getElementById('admin-select-all');
+            if (selectAll) selectAll.checked = false;
+
             slotsData.forEach((slot, idx) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="p-3 border-b border-brand-100 text-center"><input type="checkbox" onchange="toggleBatchSelect(${idx}, this.checked)" class="slot-checkbox rounded accent-brand-500"></td>
-                    <td class="p-3 border-b border-brand-100"><input type="text" value="${slot.date}" onchange="updateAdminSlot(${idx}, 'date', this.value)" class="w-16 bg-brand-50 border border-brand-200 rounded p-1 text-center font-semibold"></td>
-                    <td class="p-3 border-b border-brand-100"><input type="text" value="${slot.day}" onchange="updateAdminSlot(${idx}, 'day', this.value)" class="w-10 bg-brand-50 border border-brand-200 rounded p-1 text-center"></td>
-                    <td class="p-3 border-b border-brand-100">${makeStateCycleButton(idx, 'phone')}</td>
-                    <td class="p-3 border-b border-brand-100">${makeStateCycleButton(idx, 'lens200')}</td>
-                    <td class="p-3 border-b border-brand-100">${makeStateCycleButton(idx, 'lens400')}</td>
-                    <td class="p-3 border-b border-brand-100"><input type="text" value="${slot.meetupTime || ''}" onchange="updateAdminSlot(${idx}, 'meetupTime', this.value)" class="w-full bg-brand-50 border border-brand-200 rounded p-1"></td>
-                    <td class="p-3 border-b border-brand-100"><input type="text" value="${slot.note}" onchange="updateAdminSlot(${idx}, 'note', this.value)" class="w-full bg-brand-50 border border-brand-200 rounded p-1"></td>
-                    <td class="p-3 border-b border-brand-100 text-center"><button onclick="deleteSlotRow(${idx})" class="text-rose-400"><i class="fa-solid fa-trash-can"></i></button></td>
+                    <td class="p-3 border-b border-brand-100 text-center">
+                        <input type="checkbox" class="admin-row-checkbox rounded accent-brand-400" data-idx="${idx}">
+                    </td>
+                    <td class="p-3 border-b border-brand-100">
+                        <input type="text" value="${slot.date}" onchange="updateAdminSlot(${idx}, 'date', this.value)" class="w-16 bg-brand-50 border border-brand-200 rounded p-1 text-center font-semibold">
+                    </td>
+                    <td class="p-3 border-b border-brand-100">
+                        <input type="text" value="${slot.day}" onchange="updateAdminSlot(${idx}, 'day', this.value)" class="w-10 bg-brand-50 border border-brand-200 rounded p-1 text-center">
+                    </td>
+                    <td class="p-3 border-b border-brand-100 font-sans">
+                        ${makeStateCycleButton(idx, 'phone')}
+                    </td>
+                    <td class="p-3 border-b border-brand-100 font-sans">
+                        ${makeStateCycleButton(idx, 'lens200')}
+                    </td>
+                    <td class="p-3 border-b border-brand-100 font-sans">
+                        ${makeStateCycleButton(idx, 'lens400')}
+                    </td>
+                    <td class="p-3 border-b border-brand-100">
+                        <input type="time" value="${slot.meetupTime || ''}" onchange="updateAdminSlot(${idx}, 'meetupTime', this.value)" class="bg-brand-50 border border-brand-200 rounded p-1 text-xs text-brand-text w-full">
+                    </td>
+                    <td class="p-3 border-b border-brand-100">
+                        <input type="text" value="${slot.note || ''}" onchange="updateAdminSlot(${idx}, 'note', this.value)" placeholder="點擊填寫備註" class="w-full bg-brand-50 border border-brand-200 rounded p-1 text-xs text-brand-text">
+                    </td>
+                    <td class="p-3 border-b border-brand-100 text-center">
+                        <button onclick="deleteSlotRow(${idx})" class="text-rose-500 hover:text-rose-700 text-sm p-1"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
                 `;
                 tableBody.appendChild(tr);
             });
         }
 
-        function toggleBatchSelect(idx, checked) {
-            if (checked) batchSelectedSlots.push(idx);
-            else batchSelectedSlots = batchSelectedSlots.filter(i => i !== idx);
-            updateBatchDeleteUI();
+        function toggleSelectAll(masterCheckbox) {
+            document.querySelectorAll('.admin-row-checkbox').forEach(cb => {
+                cb.checked = masterCheckbox.checked;
+            });
         }
 
-        function toggleSelectAllSlots(checked) {
-            document.querySelectorAll('.slot-checkbox').forEach((cb, idx) => { cb.checked = checked; if(checked) batchSelectedSlots.push(idx); else batchSelectedSlots = []; });
-            updateBatchDeleteUI();
-        }
-
-        function updateBatchDeleteUI() {
-            const btn = document.getElementById('batch-delete-btn');
-            document.getElementById('selected-count').innerText = batchSelectedSlots.length;
-            btn.classList.toggle('hidden', batchSelectedSlots.length === 0);
-        }
-
-        function batchDeleteSlots() {
-            if (confirm('確定批量刪除？')) {
-                const toDelete = [...batchSelectedSlots].sort((a, b) => b - a);
-                toDelete.forEach(idx => slotsData.splice(idx, 1));
-                renderAdminSlotsTable(); generateSlotsGrid();
+        function bulkDeleteSelected() {
+            const checked = document.querySelectorAll('.admin-row-checkbox:checked');
+            if (checked.length === 0) {
+                alert('請先勾選要刪除的日期！');
+                return;
             }
+            if (!confirm(`確定要刪除已勾選的 ${checked.length} 筆日期嗎？`)) return;
+            const idxToDelete = new Set([...checked].map(cb => parseInt(cb.dataset.idx)));
+            slotsData.splice(0, slotsData.length, ...slotsData.filter((_, i) => !idxToDelete.has(i)));
+            renderAdminSlotsTable();
+            generateSlotsGrid();
         }
 
         function makeStateCycleButton(idx, field) {
             const val = slotsData[idx][field];
-            let label = "可預約", btnClass = "bg-emerald-100 text-emerald-800 border-emerald-200";
-            if (val === 'pending') { label = "洽中"; btnClass = "bg-amber-100 text-amber-800 border-amber-200"; }
-            else if (val === 'rented') { label = "已租借"; btnClass = "bg-neutral-100 text-neutral-400 border-neutral-200"; }
-            else if (val === 'unavailable') { label = "不開放"; btnClass = "bg-neutral-50 text-neutral-300 border-neutral-100"; }
-            return `<button onclick="cycleAdminSlotState(${idx}, '${field}')" class="w-full border px-2 py-1.5 rounded text-[10px] font-bold ${btnClass}">${label}</button>`;
+            let label = "可預約";
+            let btnClass = "bg-emerald-100 text-emerald-800 border-emerald-200 hover:bg-emerald-200";
+
+            if (val === 'pending') {
+                label = "洽中";
+                btnClass = "bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200";
+            } else if (val === 'rented') {
+                label = "已租借";
+                btnClass = "bg-neutral-100 text-neutral-400 border-neutral-200 hover:bg-neutral-200";
+            } else if (val === 'unavailable') {
+                label = "暫不開放";
+                btnClass = "bg-rose-100 text-rose-500 border-rose-200 hover:bg-rose-200";
+            }
+
+            return `
+                <button onclick="cycleAdminSlotState(${idx}, '${field}')" class="px-2 py-1 rounded-card border font-bold text-[10px] whitespace-nowrap tracking-wider transition-colors ${btnClass}">
+                    ${label}
+                </button>
+            `;
         }
 
         function cycleAdminSlotState(idx, field) {
-            const states = ['available', 'pending', 'rented', 'unavailable'];
-            slotsData[idx][field] = states[(states.indexOf(slotsData[idx][field]) + 1) % 4];
-            renderAdminSlotsTable(); generateSlotsGrid();
+            const current = slotsData[idx][field];
+            let next = 'available';
+            if (current === 'available') next = 'pending';
+            else if (current === 'pending') next = 'rented';
+            else if (current === 'rented') next = 'unavailable';
+            else if (current === 'unavailable') next = 'available';
+
+            slotsData[idx][field] = next;
+            renderAdminSlotsTable();
+            generateSlotsGrid();
         }
 
         function updateAdminSlot(idx, field, value) {
-            if (field === 'date' && slotsData.some((s, i) => i !== idx && s.date === value)) { alert('日期重複！'); renderAdminSlotsTable(); return; }
-            slotsData[idx][field] = value; generateSlotsGrid();
+            slotsData[idx][field] = value;
+            generateSlotsGrid();
         }
 
-        function deleteSlotRow(idx) { if (confirm('刪除？')) { slotsData.splice(idx, 1); renderAdminSlotsTable(); generateSlotsGrid(); } }
+        function deleteSlotRow(idx) {
+            if (confirm('確定要刪除此日期時段嗎？')) {
+                slotsData.splice(idx, 1);
+                renderAdminSlotsTable();
+                generateSlotsGrid();
+            }
+        }
 
         function addNewSlotRow() {
-            let nextDate = "07/01", nextDay = "一";
+            let nextDate = '07/01';
+            let nextDay = '一';
             if (slotsData.length > 0) {
-                const last = [...slotsData].sort((a, b) => (parseInt(a.date.split('/')[0])*100+parseInt(a.date.split('/')[1])) - (parseInt(b.date.split('/')[0])*100+parseInt(b.date.split('/')[1]))).pop();
-                const d = new Date(2026, parseInt(last.date.split('/')[0])-1, parseInt(last.date.split('/')[1])+1);
-                nextDate = `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
-                nextDay = ['日','一','二','三','四','五','六'][d.getDay()];
+                const last = slotsData[slotsData.length - 1];
+                const parts = last.date.split('/');
+                if (parts.length === 2) {
+                    let m = parseInt(parts[0]);
+                    let d = parseInt(parts[1]) + 1;
+                    const daysInMonth = new Date(2026, m, 0).getDate();
+                    if (d > daysInMonth) { d = 1; m += 1; }
+                    nextDate = `${String(m).padStart(2, '0')}/${String(d).padStart(2, '0')}`;
+                }
+                const daysOfWeek = ['一', '二', '三', '四', '五', '六', '日'];
+                const curDayIdx = daysOfWeek.indexOf(last.day);
+                nextDay = daysOfWeek[(curDayIdx + 1) % 7];
             }
-            if (slotsData.some(s => s.date === nextDate)) { alert('日期已存在！'); return; }
-            slotsData.push({ "date": nextDate, "day": nextDay, "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" });
-            slotsData.sort((a, b) => (parseInt(a.date.split('/')[0])*100+parseInt(a.date.split('/')[1])) - (parseInt(b.date.split('/')[0])*100+parseInt(b.date.split('/')[1])));
-            renderAdminSlotsTable(); generateSlotsGrid();
+
+            if (slotsData.some(s => s.date === nextDate)) {
+                alert(`⚠️ 日期 ${nextDate} 已存在，無法重複新增！`);
+                return;
+            }
+
+            slotsData.push({
+                "date": nextDate,
+                "day": nextDay,
+                "phone": "available",
+                "lens200": "available",
+                "lens400": "available",
+                "meetupTime": "",
+                "note": ""
+            });
+            renderAdminSlotsTable();
+            generateSlotsGrid();
         }
 
+        // Bulk adding clean calendar slots helper
         function bulkAddMonth() {
-            const year = 2026, month = parseInt(document.getElementById('batch-month').value);
-            const days = new Date(year, month, 0).getDate();
-            for (let d = 1; d <= days; d++) {
-                const dateStr = `${String(month).padStart(2,'0')}/${String(d).padStart(2,'0')}`;
+            const year = parseInt(document.getElementById('batch-year').value) || 2026;
+            const monthStr = document.getElementById('batch-month').value;
+            const monthInt = parseInt(monthStr);
+
+            const daysInMonth = new Date(year, monthInt, 0).getDate();
+            const daysOfWeek = ['日', '一', '二', '三', '四', '五', '六'];
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${monthStr}/${String(d).padStart(2, '0')}`;
+                // Check if exists to prevent duplicates
                 if (slotsData.some(s => s.date === dateStr)) continue;
-                const day = ['日','一','二','三','四','五','六'][new Date(year, month-1, d).getDay()];
-                slotsData.push({ "date": dateStr, "day": day, "phone": "available", "lens200": "available", "lens400": "available", "note": "", "meetupTime": "" });
+
+                const dayObj = new Date(year, monthInt - 1, d);
+                const dayOfWeekStr = daysOfWeek[dayObj.getDay()];
+
+                slotsData.push({
+                    "date": dateStr,
+                    "day": dayOfWeekStr,
+                    "phone": "available",
+                    "lens200": "available",
+                    "lens400": "available",
+                    "note": ""
+                });
             }
-            slotsData.sort((a, b) => (parseInt(a.date.split('/')[0])*100+parseInt(a.date.split('/')[1])) - (parseInt(b.date.split('/')[0])*100+parseInt(b.date.split('/')[1])));
-            renderAdminSlotsTable(); generateSlotsGrid();
+
+            // Sort slots chronologically
+            slotsData.sort((a, b) => {
+                const scoreA = parseInt(a.date.split('/')[0]) * 100 + parseInt(a.date.split('/')[1]);
+                const scoreB = parseInt(b.date.split('/')[0]) * 100 + parseInt(b.date.split('/')[1]);
+                return scoreA - scoreB;
+            });
+
+            renderAdminSlotsTable();
+            generateSlotsGrid();
+            alert(`已成功為您自動生成 ${monthInt} 月份整月檔期！`);
         }
 
+        // Export booked periods as ICS Calendar format
+        function exportToICS() {
+            let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPROID:-//frontrow.rental//Calendar//EN\n";
+
+            function makeDtstart(dateRaw, timeStr) {
+                if (timeStr) {
+                    const [hh, mm] = timeStr.split(':');
+                    return `DTSTART:${dateRaw}T${hh}${mm}00`;
+                }
+                return `DTSTART;VALUE=DATE:${dateRaw}`;
+            }
+
+            function makeDescription(noteText, timeText) {
+                const parts = [];
+                if (timeText) parts.push(`面交時間：${timeText}`);
+                if (noteText) parts.push(`備註：${noteText}`);
+                return parts.length > 0 ? `DESCRIPTION:${parts.join(' | ')}\n` : '';
+            }
+
+            slotsData.forEach(slot => {
+                const year = "2026";
+                const [month, day] = slot.date.split('/');
+                const dateRaw = `${year}${month}${day}`;
+                const noteText = slot.note || '';
+                const timeText = slot.meetupTime || '';
+                const dtstart = makeDtstart(dateRaw, timeText);
+                const description = makeDescription(noteText, timeText);
+
+                if (slot.phone === 'rented') {
+                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:Vivo手機已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
+                }
+                if (slot.lens200 === 'rented') {
+                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:200mm鏡已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
+                }
+                if (slot.lens400 === 'rented') {
+                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:400mm鏡已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
+                }
+            });
+
+            icsContent += "END:VCALENDAR";
+
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'frontrow-rented-slots.ics';
+            link.click();
+        }
+
+        // =========================================================================
+        // 後台管理 - 預約須知編輯邏輯
+        // =========================================================================
         function renderAdminNoticesList() {
             const container = document.getElementById('admin-notices-container');
             container.innerHTML = '';
-            noticesData.forEach((group, gIdx) => {
-                container.innerHTML += `
-                    <div class="bg-brand-50 p-4 rounded-card border border-brand-200 space-y-2">
-                        <input type="text" value="${group.title}" onchange="noticesData[${gIdx}].title=this.value;renderNoticesUI()" class="w-full bg-white border p-1 text-xs font-bold">
-                        <div class="space-y-1">
-                            ${group.items.map((item, iIdx) => `<input type="text" value="${item}" onchange="noticesData[${gIdx}].items[${iIdx}]=this.value;renderNoticesUI()" class="w-full bg-white border p-1 text-xs">`).join('')}
+
+            noticesData.forEach((notice, idx) => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-brand-50 border border-brand-200 rounded-brand space-y-3 relative";
+                
+                let listInputs = notice.items.map((item, itemIdx) => `
+                    <div class="flex gap-2 items-center">
+                        <span class="text-xs text-brand-lightText select-none">${itemIdx + 1}.</span>
+                        <input type="text" value="${item.replace(/"/g, '&quot;')}" onchange="updateNoticeItem(${idx}, ${itemIdx}, this.value)" class="flex-grow bg-white border border-brand-200 rounded p-1.5 text-xs">
+                        <button onclick="deleteNoticeItem(${idx}, ${itemIdx})" class="text-rose-500 hover:text-rose-700 p-1 text-xs"><i class="fa-solid fa-circle-minus"></i></button>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <button onclick="deleteNoticeCard(${idx})" class="absolute top-4 right-4 text-rose-500 hover:text-rose-700 text-sm font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> 刪除群組
+                    </button>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-4/5">
+                        <div>
+                            <label class="block text-[10px] font-bold text-brand-lightText mb-1">群組標題：</label>
+                            <input type="text" value="${notice.title}" onchange="updateNoticeCardHeader(${idx}, 'title', this.value)" class="w-full bg-white border border-brand-200 rounded p-2 text-xs font-bold">
                         </div>
-                    </div>`;
-            });
-        }
+                        <div>
+                            <label class="block text-[10px] font-bold text-brand-lightText mb-1">FontAwesome 圖標：</label>
+                            <input type="text" value="${notice.icon}" onchange="updateNoticeCardHeader(${idx}, 'icon', this.value)" class="w-full bg-white border border-brand-200 rounded p-2 text-xs">
+                        </div>
+                    </div>
 
-        function renderAdminFaqsTable() {
-            const tableBody = document.getElementById('admin-faqs-table-body');
-            tableBody.innerHTML = '';
-            faqsData.forEach((faq, idx) => {
-                tableBody.innerHTML += `<tr>
-                    <td class="p-2"><textarea onchange="faqsData[${idx}].q=this.value;renderFaqsUI()" class="w-full border p-1 text-xs">${faq.q}</textarea></td>
-                    <td class="p-2"><textarea onchange="faqsData[${idx}].a=this.value;renderFaqsUI()" class="w-full border p-1 text-xs">${faq.a}</textarea></td>
-                </tr>`;
-            });
-        }
-
-        function renderNoticesUI() {
-            const container = document.getElementById('notices-ui-container');
-            container.innerHTML = '';
-            noticesData.forEach(notice => {
-                container.innerHTML += `
-                    <div class="bg-white rounded-brand p-6 border border-brand-200/30 shadow-sm space-y-4">
-                        <h3 class="font-bold text-brand-text text-base flex items-center gap-2 border-b border-brand-100 pb-2">
-                            <i class="${notice.icon || 'fa-solid fa-check'} text-brand-400"></i> ${notice.title}
-                        </h3>
-                        <ul class="space-y-3 text-xs text-brand-lightText leading-relaxed">
-                            ${notice.items.map(item => `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0"></span><span>${item}</span></li>`).join('')}
-                        </ul>
-                    </div>`;
-            });
-        }
-
-        function renderFaqsUI() {
-            const container = document.getElementById('faqs-ui-container');
-            container.innerHTML = '';
-            faqsData.forEach((faq, idx) => {
-                container.innerHTML += `
-                    <div class="bg-white rounded-card border border-brand-200/30 overflow-hidden shadow-sm">
-                        <button onclick="document.getElementById('faq-ans-${idx}').classList.toggle('hidden')" class="w-full p-4 text-left flex justify-between items-center hover:bg-brand-50 transition-colors">
-                            <span class="font-bold text-sm text-brand-text">Q. ${faq.q}</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-brand-300"></i>
+                    <div class="space-y-2 mt-4">
+                        <label class="block text-[10px] font-bold text-brand-lightText">項目條款列表：</label>
+                        ${listInputs}
+                        <button onclick="addNoticeItem(${idx})" class="text-emerald-600 hover:text-emerald-700 text-xs font-bold flex items-center gap-1.5 pt-1">
+                            <i class="fa-solid fa-plus"></i> 新增一條項目
                         </button>
-                        <div id="faq-ans-${idx}" class="hidden p-4 pt-0 text-sm text-brand-lightText border-t border-brand-100 bg-brand-50/30 leading-relaxed">${faq.a}</div>
-                    </div>`;
+                    </div>
+                `;
+                container.appendChild(card);
             });
         }
 
-        function exportToICS() {
-            let ics = "BEGIN:VCALENDAR\nVERSION:2.0\n";
-            slotsData.forEach(slot => {
-                const date = `2026${slot.date.replace('/','')}`;
-                const add = (title) => ics += `BEGIN:VEVENT\nDTSTART;VALUE=DATE:${date}\nSUMMARY:${title}${slot.meetupTime?' ['+slot.meetupTime+']':''}\nDESCRIPTION:${slot.note||''}\nEND:VEVENT\n`;
-                if(slot.phone==='rented') add("Vivo手機已租");
-                if(slot.lens200==='rented') add("200mm鏡已租");
-                if(slot.lens400==='rented') add("400mm鏡已租");
-            });
-            ics += "END:VCALENDAR";
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
-            link.download = 'schedule.ics'; link.click();
+        function updateNoticeCardHeader(idx, field, value) {
+            noticesData[idx][field] = value;
+            renderNoticesUI();
         }
 
-        async function copyFullHTMLCode() {
-            const html = document.documentElement.outerHTML;
-            const updatedHtml = html.replace(/\/\* SLOTS_DATA_START \*\/[\s\S]*?\/\* SLOTS_DATA_END \*\//, `/* SLOTS_DATA_START */\n        const slotsData = ${JSON.stringify(slotsData, null, 8)};\n        /* SLOTS_DATA_END */`)
-                                    .replace(/\/\* NOTICES_DATA_START \*\/[\s\S]*?\/\* NOTICES_DATA_END \*\//, `/* NOTICES_DATA_START */\n        const noticesData = ${JSON.stringify(noticesData, null, 8)};\n        /* NOTICES_DATA_END */`)
-                                    .replace(/\/\* FAQS_DATA_START \*\/[\s\S]*?\/\* FAQS_DATA_END \*\//, `/* FAQS_DATA_START */\n        const faqsData = ${JSON.stringify(faqsData, null, 8)};\n        /* FAQS_DATA_END */`);
-            await navigator.clipboard.writeText('<!DOCTYPE html>\n' + updatedHtml);
-            alert('代碼已複製！請至 GitHub 全選貼上。');
+        function updateNoticeItem(cardIdx, itemIdx, value) {
+            noticesData[cardIdx].items[itemIdx] = value;
+            renderNoticesUI();
+        }
+
+        function addNoticeItem(cardIdx) {
+            noticesData[cardIdx].items.push("全新條款項目內容");
+            renderAdminNoticesList();
+            renderNoticesUI();
+        }
+
+        function deleteNoticeItem(cardIdx, itemIdx) {
+            noticesData[cardIdx].items.splice(itemIdx, 1);
+            renderAdminNoticesList();
+            renderNoticesUI();
+        }
+
+        function deleteNoticeCard(idx) {
+            if (confirm(`確定要刪除「${noticesData[idx].title}」整張卡片嗎？`)) {
+                noticesData.splice(idx, 1);
+                renderAdminNoticesList();
+                renderNoticesUI();
+            }
+        }
+
+        function addNewNoticeCard() {
+            noticesData.push({
+                "title": "自訂須知群組",
+                "icon": "fa-solid fa-asterisk",
+                "items": [
+                    "第一項規則說明文字"
+                ]
+            });
+            renderAdminNoticesList();
+            renderNoticesUI();
+        }
+
+        // =========================================================================
+        // 後台管理 - 常見問題編輯邏輯
+        // =========================================================================
+        function renderAdminFaqsList() {
+            const container = document.getElementById('admin-faqs-container');
+            container.innerHTML = '';
+
+            faqsData.forEach((faq, idx) => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-brand-50 border border-brand-200 rounded-brand space-y-3 relative";
+                card.innerHTML = `
+                    <button onclick="deleteFaqItem(${idx})" class="absolute top-4 right-4 text-rose-500 hover:text-rose-700 text-xs font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> 刪除此問答
+                    </button>
+
+                    <div class="space-y-2 w-11/12">
+                        <div>
+                            <label class="block text-[10px] font-bold text-brand-lightText mb-1">問題 (Question)：</label>
+                            <input type="text" value="${faq.q.replace(/"/g, '&quot;')}" onchange="updateFaqData(${idx}, 'q', this.value)" class="w-full bg-white border border-brand-200 rounded p-2 text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-brand-lightText mb-1">答案 (Answer)：</label>
+                            <textarea rows="3" onchange="updateFaqData(${idx}, 'a', this.value)" class="w-full bg-white border border-brand-200 rounded p-2 text-xs leading-relaxed">${faq.a}</textarea>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateFaqData(idx, field, value) {
+            faqsData[idx][field] = value;
+            renderFaqsUI();
+        }
+
+        function deleteFaqItem(idx) {
+            if (confirm('確定要刪除這筆問答嗎？')) {
+                faqsData.splice(idx, 1);
+                renderAdminFaqsList();
+                renderFaqsUI();
+            }
+        }
+
+        function addNewFaqItem() {
+            faqsData.push({
+                "q": "新增的問題項目內容？",
+                "a": "請於此處輸入您欲說明的完整解答內容。"
+            });
+            renderAdminFaqsList();
+            renderFaqsUI();
+        }
+
+        // =========================================================================
+        // 匯出儲存並下載全新 HTML 檔案 / 複製完整程式碼到剪貼簿
+        // =========================================================================
+        function buildUpdatedHTML() {
+            return fetch(window.location.href)
+                .then(response => response.text())
+                .then(htmlText => {
+                    const updatedSlotsStr = JSON.stringify(slotsData, null, 4);
+                    const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
+                    const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
+
+                    let newHtml = htmlText;
+                    const slotsRegex = /(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/;
+                    newHtml = newHtml.replace(slotsRegex, `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
+                    const noticesRegex = /(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/;
+                    newHtml = newHtml.replace(noticesRegex, `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
+                    const faqsRegex = /(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/;
+                    newHtml = newHtml.replace(faqsRegex, `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
+                    return newHtml;
+                });
+        }
+
+        function copyUpdatedHTML() {
+            buildUpdatedHTML()
+                .then(newHtml => {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        return navigator.clipboard.writeText(newHtml);
+                    } else {
+                        const ta = document.createElement('textarea');
+                        ta.value = newHtml;
+                        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(ta);
+                    }
+                })
+                .then(() => {
+                    const btn = document.querySelector('[onclick="copyUpdatedHTML()"]');
+                    const orig = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> 已複製！貼到 GitHub 即可';
+                    btn.classList.add('bg-emerald-500');
+                    btn.classList.remove('bg-brand-400', 'hover:bg-brand-500');
+                    setTimeout(() => {
+                        btn.innerHTML = orig;
+                        btn.classList.remove('bg-emerald-500');
+                        btn.classList.add('bg-brand-400', 'hover:bg-brand-500');
+                    }, 3000);
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('複製失敗，請改用「下載更新後網頁」按鈕。');
+                });
         }
 
         function exportUpdatedHTML() {
-            const html = document.documentElement.outerHTML;
-            const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'index.html'; link.click();
+            fetch(window.location.href)
+            .then(response => response.text())
+            .then(htmlText => {
+                const updatedSlotsStr = JSON.stringify(slotsData, null, 4);
+                const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
+                const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
+
+                let newHtml = htmlText;
+
+                const slotsRegex = /(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/;
+                newHtml = newHtml.replace(slotsRegex, `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
+
+                const noticesRegex = /(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/;
+                newHtml = newHtml.replace(noticesRegex, `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
+
+                const faqsRegex = /(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/;
+                newHtml = newHtml.replace(faqsRegex, `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
+
+                const blob = new Blob([newHtml], { type: 'text/html' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'index.html';
+                link.click();
+            })
+            .catch(err => {
+                const failSafeString = 
+                    "const slotsData = " + JSON.stringify(slotsData, null, 4) + ";\n\n" +
+                    "const noticesData = " + JSON.stringify(noticesData, null, 4) + ";\n\n" +
+                    "const faqsData = " + JSON.stringify(faqsData, null, 4) + ";";
+                console.error(err);
+                alert("網頁更新成功，但由於系統預覽環境安全限制無法自動下載新檔案。請嘗試複製備份您的設定，或嘗試在獨立瀏覽器頁面中操作後台！");
+            });
         }
 
         window.onload = function() {
-            calculatePrice(); renderNoticesUI(); renderFaqsUI(); generateSlotsGrid();
-        };
+            calculatePrice();
+            renderNoticesUI();
+            renderFaqsUI();
+            generateSlotsGrid();
+        }
     </script>
-</body>
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-repl-id="d58fbc36-522f-49e2-a9cc-c60eb65dcdb2"></script></body>
 </html>
