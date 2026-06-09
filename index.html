@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>frontrow.rental - 前排視角手機租賃</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome for sleek modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#FAF8F5',
+                            100: '#F2EAE1',
+                            200: '#E5D5C5',
+                            300: '#D1B29A',
+                            400: '#B88A64',
+                            500: '#8A5E3C',
+                            text: '#3D3530',
+                            lightText: '#7A706A',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    borderRadius: {
+                        'brand': '24px',
+                        'card': '16px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FAF8F5;
+            color: #3D3530;
+            -webkit-tap-highlight-color: transparent;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5D5C5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D1B29A;
+        }
+        .slot-btn-selected {
+            background-color: #8A5E3C !important;
+            color: #ffffff !important;
+            border-color: #8A5E3C !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-200 selection:text-brand-500">
+
+    <!-- Header Hero Banner -->
+    <header class="w-full bg-gradient-to-b from-[#FFFDFB] to-[#FAF8F5] pt-14 pb-10 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 bg-brand-100 text-brand-500 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest mb-4 border border-brand-200/50">
+                <i class="fa-solid fa-camera-retro"></i> 租借服務為 24 小時制
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-brand-text mb-4 font-serif italic">
+                frontrow.rental
+            </h1>
+            
+            <p class="text-brand-lightText text-base md:text-lg max-w-lg mx-auto font-semibold leading-relaxed">
+                讓你不管在哪個位子都可以拍出前排視角!
+            </p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div id="main-nav" class="sticky top-0 z-30 bg-[#FAF8F5]/90 backdrop-blur-md py-4 border-b border-brand-200/30">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex overflow-x-auto gap-2 md:grid md:grid-cols-4 bg-brand-100/60 p-1.5 rounded-brand border border-brand-200/40 no-scrollbar">
+                <button onclick="switchTab('price-tab')" id="btn-price-tab" class="tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 bg-white text-brand-500 shadow-sm border border-brand-200">
+                    <i class="fa-solid fa-calculator text-base"></i>
+                    <span>價目與試算器</span>
+                </button>
+                
+                <button onclick="switchTab('notice-tab')" id="btn-notice-tab" class="tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500">
+                    <i class="fa-solid fa-circle-info text-base"></i>
+                    <span>預約須知</span>
+                </button>
+                
+                <button onclick="switchTab('faq-tab')" id="btn-faq-tab" class="tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500">
+                    <i class="fa-solid fa-circle-question text-base"></i>
+                    <span>常見問題 QA</span>
+                </button>
+                
+                <button onclick="switchTab('slots-tab')" id="btn-slots-tab" class="tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500">
+                    <i class="fa-solid fa-calendar-days text-base"></i>
+                    <span>可預約時段</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Body -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
+        
+        <!-- PAGE 1: PRICE -->
+        <section id="price-tab" class="tab-content block space-y-8">
+            <div class="text-center md:text-left mb-6">
+                <h2 class="text-xl font-bold text-brand-text flex items-center justify-center md:justify-start gap-2">
+                    <span class="w-1.5 h-6 bg-brand-300 rounded-full inline-block"></span>
+                    手機與配件價目
+                </h2>
+            </div>
+
+            <!-- Price Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-card p-6 border border-brand-200/30 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between">
+                    <div class="absolute top-0 right-0 bg-brand-100 text-brand-500 text-xs font-semibold px-4 py-1.5 rounded-bl-card tracking-wider">旗艦手機</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-brand-text mb-3">Vivo X300 Ultra 1TB</h3>
+                        <ul class="space-y-2 text-sm text-brand-lightText">
+                            <li class="flex justify-between"><span>每日租金 (24H)</span> <span class="font-bold text-brand-text">NT$ 800</span></li>
+                            <li class="flex justify-between"><span>天數折扣 (滿3天)</span> <span class="text-brand-400">95折</span></li>
+                            <li class="flex justify-between"><span>天數折扣 (滿5天)</span> <span class="text-brand-400">9折</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator Section -->
+            <div id="calculator-section" class="bg-white rounded-brand p-6 md:p-8 border border-brand-200/40 shadow-sm">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <span class="p-2 bg-brand-100 text-brand-500 rounded-card"><i class="fa-solid fa-calculator"></i></span>
+                    <div>
+                        <h3 class="font-bold text-lg text-brand-text">費用快速估算</h3>
+                        <p class="text-xs text-brand-lightText">勾選下方租用組合，自動適配最佳優惠。</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-brand-text mb-3">
+                                <i class="fa-solid fa-list-check text-brand-400"></i> 選擇租用項目
+                            </label>
+                            <div class="space-y-2.5">
+                                <label class="flex items-center justify-between p-3.5 rounded-card bg-brand-50 border border-brand-200 cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" id="calc-phone" checked onchange="calculatePrice()" class="rounded accent-brand-400">
+                                        <p class="text-sm font-bold text-brand-text">Vivo X300 Ultra 1TB</p>
+                                    </div>
+                                    <span class="text-xs font-semibold text-brand-500">NT$ 800 / 日</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-brand-text mb-2">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-calendar-day text-brand-400"></i> 租借天數</span>
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <input type="range" id="calc-days" min="1" max="14" value="1" oninput="updateDaysText(this.value)" class="flex-grow accent-brand-400">
+                                <input type="number" id="calc-days-num" min="1" max="60" value="1" oninput="updateDaysSlider(this.value)" class="w-16 bg-white border border-brand-200 p-2 rounded-card text-center text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Receipt Summary -->
+                    <div class="bg-brand-50/50 rounded-card p-6 border border-brand-200/50 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-brand-text tracking-wider uppercase mb-4">即時估算清單</h4>
+                            <div id="summary-items-list" class="space-y-2 border-b border-brand-200/30 pb-3"></div>
+                            <div class="flex justify-between text-brand-lightText text-xs mt-3">
+                                <span>估算總金額</span>
+                                <span id="summary-total-price" class="text-2xl font-bold text-brand-500">NT$ 800</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: BOOKING NOTICE -->
+        <section id="notice-tab" class="tab-content hidden space-y-6">
+            <div class="text-center md:text-left mb-6">
+                <h2 class="text-xl font-bold text-brand-text">預約須知與租借流程</h2>
+            </div>
+            <div id="notices-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </section>
+
+        <!-- PAGE 3: FAQ -->
+        <section id="faq-tab" class="tab-content hidden space-y-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-xl font-bold text-brand-text">常見問題 QA</h2>
+            </div>
+            <div id="faqs-container" class="space-y-4"></div>
+        </section>
+
+        <!-- PAGE 4: AVAILABLE SLOTS -->
+        <section id="slots-tab" class="tab-content hidden space-y-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-xl font-bold text-brand-text">預約狀態查詢</h2>
+            </div>
+            <div id="month-tabs-container" class="flex flex-wrap gap-2"></div>
+            <div id="slots-grid-container" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3"></div>
+        </section>
+
+    </main>
+
+    <!-- Contact Section -->
+    <section id="contact-area" class="w-full bg-white border-t border-brand-200/50 py-12 px-4 mt-8">
+        <div class="max-w-xl mx-auto text-center space-y-6">
+            <div class="text-brand-400 text-xs font-bold tracking-widest uppercase">FRONTROW.RENTAL CONTACT</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                <a href="https://lin.ee/VRS8Bev" target="_blank" class="flex items-center justify-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white py-3.5 px-6 rounded-card font-semibold transition-all">
+                    <i class="fa-brands fa-line text-2xl"></i>
+                    <div class="text-left">
+                        <p class="text-[10px]">官方 LINE</p>
+                        <p class="text-sm font-bold">加入 LINE 即刻預約</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full bg-brand-50 py-5 text-center border-t border-brand-200/20">
+        <p class="text-[11px] text-brand-lightText font-serif">
+            © 2026 frontrow.rental 版權所有. 
+            <span onclick="openAdminModal()" class="cursor-pointer text-brand-200 hover:text-brand-400 ml-2 transition-colors"><i class="fa-solid fa-gear"></i></span>
+        </p>
+    </footer>
+
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-brand max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-brand-200 p-6 space-y-6">
+            <div class="flex justify-between items-center border-b border-brand-100 pb-4">
+                <h3 class="font-bold text-brand-text text-lg">
+                    <i class="fa-solid fa-sliders text-brand-400"></i> 系統管理
+                </h3>
+                <button onclick="closeAdminModal()" class="text-brand-lightText hover:text-brand-text text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="admin-login-screen" class="space-y-4 py-8 text-center max-w-sm mx-auto">
+                <p class="text-sm text-brand-lightText">輸入密碼解鎖系統</p>
+                <div class="flex gap-2">
+                    <input type="password" id="admin-password-input" class="w-full bg-brand-50 border border-brand-200 p-3 rounded-card text-center focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                    <button onclick="checkAdminPassword()" class="bg-brand-500 hover:bg-brand-600 text-white px-6 rounded-card text-sm font-semibold">驗證</button>
+                </div>
+                <p id="admin-login-error" class="text-xs text-rose-500 hidden font-semibold"></p>
+            </div>
+
+            <div id="admin-editor-screen" class="space-y-6 hidden">
+                <button onclick="exportUpdatedHTML()" class="w-full bg-brand-500 hover:bg-brand-600 text-white px-4 py-3 rounded-card text-sm font-bold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> 匯出並下載更新後網頁
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS_HASH = "f0565c46";
+        
+        function customHash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash * 33) ^ str.charCodeAt(i);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        /* SLOTS_DATA_START */
+        const slotsData = [
+            { "date": "06/01", "day": "一", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
+            { "date": "06/02", "day": "二", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
+            { "date": "06/03", "day": "三", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
+            { "date": "06/04", "day": "四", "phone": "available", "lens200": "available", "lens400": "available", "note": "" },
+            { "date": "06/05", "day": "五", "phone": "available", "lens200": "available", "lens400": "available", "note": "" }
+        ];
+        /* SLOTS_DATA_END */
+
+        /* NOTICES_DATA_START */
+        const noticesData = [
+            {
+                "title": "預約細則",
+                "icon": "fa-regular fa-calendar-check",
+                "items": ["須支付訂金保留檔期", "24小時內完成付款", "取消訂金恕不退還"]
+            }
+        ];
+        /* NOTICES_DATA_END */
+
+        /* FAQS_DATA_START */
+        const faqsData = [
+            {
+                "q": "如何預約？",
+                "a": "請透過 LINE 聯絡我們確認檔期。"
+            }
+        ];
+        /* FAQS_DATA_END */
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-brand-500', 'shadow-sm', 'border');
+                btn.classList.add('text-brand-lightText', 'hover:text-brand-500');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${tabId.replace('-tab', '')}-tab`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-brand-500', 'shadow-sm', 'border', 'border-brand-200');
+                activeBtn.classList.remove('text-brand-lightText', 'hover:text-brand-500');
+            }
+        }
+
+        function calculatePrice() {
+            const phone = document.getElementById('calc-phone').checked ? 800 : 0;
+            const days = parseInt(document.getElementById('calc-days').value) || 1;
+            let total = phone * days;
+            
+            if (days >= 5) total *= 0.9;
+            else if (days >= 3) total *= 0.95;
+            
+            document.getElementById('summary-total-price').textContent = `NT$ ${total}`;
+        }
+
+        function updateDaysText(val) {
+            document.getElementById('calc-days-num').value = val;
+            calculatePrice();
+        }
+
+        function updateDaysSlider(val) {
+            if (val > 60) val = 60;
+            if (val < 1) val = 1;
+            document.getElementById('calc-days').value = val;
+            calculatePrice();
+        }
+
+        function renderNoticesUI() {
+            const container = document.getElementById('notices-container');
+            container.innerHTML = noticesData.map(notice => `
+                <div class="bg-white rounded-brand p-6 border border-brand-200/30 shadow-sm">
+                    <h3 class="font-bold text-brand-text text-base mb-3">
+                        <i class="${notice.icon} text-brand-400"></i> ${notice.title}
+                    </h3>
+                    <ul class="space-y-2 text-xs text-brand-lightText">
+                        ${notice.items.map(item => `<li>• ${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        function renderFaqsUI() {
+            const container = document.getElementById('faqs-container');
+            container.innerHTML = faqsData.map((faq, idx) => `
+                <div class="bg-white rounded-card border border-brand-200/30 overflow-hidden">
+                    <button onclick="toggleFaq(${idx})" class="w-full py-4 px-5 text-left flex justify-between items-center hover:bg-brand-50/55">
+                        <span class="font-bold text-brand-text"><span class="text-brand-400">Q.</span> ${faq.q}</span>
+                        <i id="faq-icon-${idx}" class="fa-solid fa-chevron-down text-brand-300 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-${idx}" class="hidden px-5 pb-5 text-sm text-brand-lightText bg-brand-50/20">
+                        ${faq.a}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFaq(index) {
+            const ans = document.getElementById(`faq-ans-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            ans.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-password-input').value = '';
+        }
+
+        function checkAdminPassword() {
+            const input = document.getElementById('admin-password-input').value;
+            if (customHash(input) === ADMIN_PASS_HASH) {
+                document.getElementById('admin-login-screen').classList.add('hidden');
+                document.getElementById('admin-editor-screen').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-login-error').textContent = '密碼錯誤';
+                document.getElementById('admin-login-error').classList.remove('hidden');
+            }
+        }
+
+        function exportUpdatedHTML() {
+            let htmlContent = document.documentElement.outerHTML;
+
+            // 正確的資料替換邏輯
+            htmlContent = htmlContent.replace(
+                /\/\* SLOTS_DATA_START \*\/[\s\S]*?\/\* SLOTS_DATA_END \*\//,
+                `/* SLOTS_DATA_START */\n        const slotsData = ${JSON.stringify(slotsData, null, 8)};\n        /* SLOTS_DATA_END */`
+            );
+
+            htmlContent = htmlContent.replace(
+                /\/\* NOTICES_DATA_START \*\/[\s\S]*?\/\* NOTICES_DATA_END \*\//,
+                `/* NOTICES_DATA_START */\n        const noticesData = ${JSON.stringify(noticesData, null, 8)};\n        /* NOTICES_DATA_END */`
+            );
+
+            htmlContent = htmlContent.replace(
+                /\/\* FAQS_DATA_START \*\/[\s\S]*?\/\* FAQS_DATA_END \*\//,
+                `/* FAQS_DATA_START */\n        const faqsData = ${JSON.stringify(faqsData, null, 8)};\n        /* FAQS_DATA_END */`
+            );
+
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'index.html';
+            link.click();
+            
+            alert('✅ 已匯出！請用下載的 index.html 覆蓋本機檔案，所有功能應恢復正常。');
+        }
+
+        // 初始化
+        renderNoticesUI();
+        renderFaqsUI();
+        calculatePrice();
+        switchTab('price-tab');
+    </script>
+</body>
+</html>
