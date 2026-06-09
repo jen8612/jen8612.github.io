@@ -1942,72 +1942,49 @@ ${blocks.join('\n\n')}
         // =========================================================================
         // 匯出儲存並下載全新 HTML 檔案
         // =========================================================================
-        function exportUpdatedHTML() {
-            fetch(window.location.href)
-            .then(response => response.text())
-            .then(htmlText => {
+        /**
+         * 匯出更新後的 HTML 檔案
+         * 核心理念：直接讀取原始碼，僅替換資料區塊，不觸碰任何 DOM 結構
+         */
+        async function exportUpdatedHTML() {
+            try {
+                // 1. 取得當前網頁的原始碼
+                const response = await fetch(window.location.href);
+                let html = await response.text();
+
+                // 2. 準備要更新的資料字串
                 const updatedSlotsStr = JSON.stringify(slotsData, null, 4);
                 const updatedNoticesStr = JSON.stringify(noticesData, null, 4);
                 const updatedFaqsStr = JSON.stringify(faqsData, null, 4);
 
-                let newHtml = htmlText;
+                // 3. 資料區塊替換 (精準匹配註解標記)
+                html = html.replace(/(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/, 
+                    `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
+                html = html.replace(/(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/, 
+                    `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
+                html = html.replace(/(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/, 
+                    `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
 
-                // --- 1. Remove preview environment scripts ---
-                newHtml = newHtml.replace(/<script src="https:\/\/manus\.im\/.*?"><\/script>/g, '');
-                newHtml = newHtml.replace(/<script>window\.__MANUS_.*?<\/script>/gs, '');
-                newHtml = newHtml.replace(/\sdata-manus-id=".*?"/g, '');
+                // 4. 清理環境注入的雜質 (Manus 注入的 script 或屬性)
+                html = html.replace(/<script src="https:\/\/manus\.im\/.*?"><\/script>/g, '');
+                html = html.replace(/<script>window\.__MANUS_.*?<\/script>/gs, '');
+                html = html.replace(/\sdata-manus-id=".*?"/g, '');
 
-                // --- 2. Robust UI State Reset (Price tab active, others hidden) ---
-                // We use a safe replacement that doesn't rely on existing class combinations
-                const tabs = ['price-tab', 'notice-tab', 'faq-tab', 'slots-tab'];
-                tabs.forEach(id => {
-                    const isPrice = id === 'price-tab';
-                    // Match section tag with that ID and capture its classes
-                    const sectionRegex = new RegExp(`(<section\\s+id="${id}"\\s+class=")([^"]*)(")`, 'i');
-                    newHtml = newHtml.replace(sectionRegex, (m, start, classes, end) => {
-                        // Remove all existing visibility classes
-                        let clean = classes.replace(/\b(hidden|block)\b/g, '').replace(/\s+/g, ' ').trim();
-                        return `${start}${clean} ${isPrice ? 'block' : 'hidden'}${end}`;
-                    });
-                });
+                // 5. 下載檔案
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
 
-                // --- 3. Reset Navigation Buttons ---
-                const btnIds = ['btn-price-tab', 'btn-notice-tab', 'btn-faq-tab', 'btn-slots-tab'];
-                const activeStyle = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 bg-white text-brand-500 shadow-sm border border-brand-200/30";
-                const inactiveStyle = "tab-btn flex-1 whitespace-nowrap flex items-center justify-center gap-2 px-4 py-3 rounded-card text-sm font-medium transition-all duration-300 text-brand-lightText hover:text-brand-500";
-                
-                btnIds.forEach(id => {
-                    const isPrice = id === 'btn-price-tab';
-                    const btnRegex = new RegExp(`(<button\\s+[^>]*id="${id}"\\s+class=")([^"]*)(")`, 'i');
-                    newHtml = newHtml.replace(btnRegex, `$1${isPrice ? activeStyle : inactiveStyle}$3`);
-                });
-
-                // --- 4. Data Block Replacement ---
-                newHtml = newHtml.replace(/(\/\* SLOTS_DATA_START \*\/)([\s\S]*?)(\/\* SLOTS_DATA_END \*\/)/, `$1\n        const slotsData = ${updatedSlotsStr};\n        $3`);
-                newHtml = newHtml.replace(/(\/\* NOTICES_DATA_START \*\/)([\s\S]*?)(\/\* NOTICES_DATA_END \*\/)/, `$1\n        const noticesData = ${updatedNoticesStr};\n        $3`);
-                newHtml = newHtml.replace(/(\/\* FAQS_DATA_START \*\/)([\s\S]*?)(\/\* FAQS_DATA_END \*\/)/, `$1\n        const faqsData = ${updatedFaqsStr};\n        $3`);
-
-                // --- 5. Ensure <html> wrapper and Doctype ---
-                const htmlMatch = newHtml.match(/<html[\s\S]*?<\/html>/i);
-                if (htmlMatch) {
-                    newHtml = htmlMatch[0];
-                    if (!newHtml.startsWith('<!DOCTYPE')) newHtml = '<!DOCTYPE html>\n' + newHtml;
-                }
-
-                const blob = new Blob([newHtml], { type: 'text/html' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'index.html';
-                link.click();
-            })
-            .catch(err => {
-                const failSafeString = 
-                    "const slotsData = " + JSON.stringify(slotsData, null, 4) + ";\n\n" +
-                    "const noticesData = " + JSON.stringify(noticesData, null, 4) + ";\n\n" +
-                    "const faqsData = " + JSON.stringify(faqsData, null, 4) + ";";
-                console.error(err);
-                alert("網頁更新成功，但由於系統預覽環境安全限制無法自動下載新檔案。請嘗試複製備份您的設定，或嘗試在獨立瀏覽器頁面中操作後台！");
-            });
+            } catch (error) {
+                console.error('匯出失敗:', error);
+                alert('匯出失敗，請確認是否在預覽環境限制下操作。');
+            }
         }
 
         window.onload = function() {
