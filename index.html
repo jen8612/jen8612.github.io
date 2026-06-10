@@ -651,6 +651,7 @@
                                 <th class="p-3 border-b border-brand-200">200mm 鏡</th>
                                 <th class="p-3 border-b border-brand-200">400mm 鏡</th>
                                 <th class="p-3 border-b border-brand-200 w-28">面交時間</th>
+                                <th class="p-3 border-b border-brand-200">面交地點</th>
                                 <th class="p-3 border-b border-brand-200">備註</th>
                                 <th class="p-3 border-b border-brand-200 w-10 text-center">刪</th>
                             </tr>
@@ -1486,8 +1487,9 @@ ${blocks.join('\n\n')}
                 slot.phone   = fix(slot.phone);
                 slot.lens200 = fix(slot.lens200);
                 slot.lens400 = fix(slot.lens400);
-                slot.meetupTime = slot.meetupTime || '';
-                slot.note       = slot.note || '';
+                slot.meetupTime     = slot.meetupTime     || '';
+                slot.meetupLocation = slot.meetupLocation || '';
+                slot.note           = slot.note           || '';
                 return slot;
             });
         }
@@ -1516,6 +1518,26 @@ ${blocks.join('\n\n')}
         }
 
         // =========================================================================
+        // 後台 — 面交時間下拉選單（每30分一格，09:00–22:00）
+        // =========================================================================
+        function makeTimeSelect(idx, currentVal) {
+            const times = [''];
+            for (let h = 9; h <= 22; h++) {
+                times.push(`${String(h).padStart(2,'0')}:00`);
+                if (h < 22) times.push(`${String(h).padStart(2,'0')}:30`);
+            }
+            const opts = times.map(t => {
+                const selected = t === (currentVal || '') ? 'selected' : '';
+                const label = t === '' ? '── 未填 ──' : t;
+                return `<option value="${t}" ${selected}>${label}</option>`;
+            }).join('');
+            return `<select onchange="updateAdminSlot(${idx},'meetupTime',this.value)"
+                class="bg-brand-50 border border-brand-200 rounded p-1 text-xs w-24 focus:ring-1 focus:ring-brand-400 focus:outline-none">
+                ${opts}
+            </select>`;
+        }
+
+        // =========================================================================
         // 後台 — 時段狀態表
         // =========================================================================
         function renderAdminSlotsTable() {
@@ -1530,8 +1552,11 @@ ${blocks.join('\n\n')}
                     <td class="p-2.5 border-b border-brand-100">${makeStateCycleBtn(idx, 'lens200', slot.lens200)}</td>
                     <td class="p-2.5 border-b border-brand-100">${makeStateCycleBtn(idx, 'lens400', slot.lens400)}</td>
                     <td class="p-2.5 border-b border-brand-100">
-                        <input type="time" value="${slot.meetupTime || ''}" onchange="updateAdminSlot(${idx},'meetupTime',this.value)"
-                            class="w-24 bg-brand-50 border border-brand-200 rounded p-1 text-xs">
+                        ${makeTimeSelect(idx, slot.meetupTime)}
+                    </td>
+                    <td class="p-2.5 border-b border-brand-100">
+                        <input type="text" value="${(slot.meetupLocation || '').replace(/"/g,'&quot;')}" onchange="updateAdminSlot(${idx},'meetupLocation',this.value)"
+                            placeholder="例：南京三民捷運" class="w-full bg-brand-50 border border-brand-200 rounded p-1 text-xs">
                     </td>
                     <td class="p-2.5 border-b border-brand-100">
                         <input type="text" value="${(slot.note || '').replace(/"/g,'&quot;')}" onchange="updateAdminSlot(${idx},'note',this.value)"
@@ -1569,7 +1594,7 @@ ${blocks.join('\n\n')}
                 return;
             }
             const dayStr = DAY_NAMES[d.getDay()];
-            slotsData.push({ date: dateStr, day: dayStr, phone: 'available', lens200: 'available', lens400: 'available', meetupTime: '', note: '' });
+            slotsData.push({ date: dateStr, day: dayStr, phone: 'available', lens200: 'available', lens400: 'available', meetupTime: '', meetupLocation: '', note: '' });
             // Sort by date
             slotsData.sort((a, b) => {
                 const [am, ad] = a.date.split('/').map(Number);
@@ -1840,51 +1865,67 @@ ${blocks.join('\n\n')}
             alert(`已成功為您自動生成 ${monthInt} 月份整月檔期！`);
         }
 
-        // Export booked periods as ICS Calendar format
-        function exportToICS() {
-            let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPROID:-//frontrow.rental//Calendar//EN\n";
+        // Export booked (rented) periods as ICS Calendar — always re-fetches from Sheets first
+        async function exportToICS() {
+            const btn = document.querySelector('[onclick="exportToICS()"]');
+            if (btn) { btn.textContent = '載入中...'; btn.disabled = true; }
+            try {
+                await loadFromSheets();  // always pull latest before exporting
+            } catch(e) { /* fallback to current slotsData */ }
+            if (btn) { btn.innerHTML = '<i class="fa-regular fa-calendar-plus"></i> 匯出已租 ICS 行事曆'; btn.disabled = false; }
 
-            function makeDtstart(dateRaw, timeStr) {
+            const year = new Date().getFullYear();
+
+            function makeEvent(dateRaw, timeStr, summary, location, note) {
+                let dtstart, dtend;
                 if (timeStr) {
                     const [hh, mm] = timeStr.split(':');
-                    return `DTSTART:${dateRaw}T${hh}${mm}00`;
+                    const startH = parseInt(hh), startM = parseInt(mm);
+                    const endH   = (startH + 2) % 24;
+                    dtstart = `DTSTART:${dateRaw}T${String(startH).padStart(2,'0')}${String(startM).padStart(2,'0')}00`;
+                    dtend   = `DTEND:${dateRaw}T${String(endH).padStart(2,'0')}${String(startM).padStart(2,'0')}00`;
+                } else {
+                    // All-day: DTEND = next day
+                    const d = new Date(parseInt(dateRaw.slice(0,4)), parseInt(dateRaw.slice(4,6))-1, parseInt(dateRaw.slice(6,8))+1);
+                    const nextDay = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+                    dtstart = `DTSTART;VALUE=DATE:${dateRaw}`;
+                    dtend   = `DTEND;VALUE=DATE:${nextDay}`;
                 }
-                return `DTSTART;VALUE=DATE:${dateRaw}`;
+                const uid = `${dateRaw}-${summary.replace(/\s/g,'')}-frontrow@rental`;
+                const desc = [timeStr ? `面交時間：${timeStr}` : '', location ? `地點：${location}` : '', note ? `備註：${note}` : ''].filter(Boolean).join(' | ');
+                return [
+                    'BEGIN:VEVENT',
+                    uid      ? `UID:${uid}`             : '',
+                    dtstart,
+                    dtend,
+                    `SUMMARY:${summary}`,
+                    location ? `LOCATION:${location}`   : '',
+                    desc     ? `DESCRIPTION:${desc}`    : '',
+                    'END:VEVENT'
+                ].filter(Boolean).join('\n') + '\n';
             }
 
-            function makeDescription(noteText, timeText) {
-                const parts = [];
-                if (timeText) parts.push(`面交時間：${timeText}`);
-                if (noteText) parts.push(`備註：${noteText}`);
-                return parts.length > 0 ? `DESCRIPTION:${parts.join(' | ')}\n` : '';
-            }
+            let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//frontrow.rental//Calendar//EN\nCALSCALE:GREGORIAN\n";
 
             slotsData.forEach(slot => {
-                const year = "2026";
+                if (!slot.date) return;
                 const [month, day] = slot.date.split('/');
-                const dateRaw = `${year}${month}${day}`;
-                const noteText = slot.note || '';
-                const timeText = slot.meetupTime || '';
-                const dtstart = makeDtstart(dateRaw, timeText);
-                const description = makeDescription(noteText, timeText);
+                const dateRaw  = `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}`;
+                const loc      = slot.meetupLocation || '';
+                const note     = slot.note || '';
+                const time     = slot.meetupTime || '';
 
-                if (slot.phone === 'rented') {
-                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:Vivo手機已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
-                }
-                if (slot.lens200 === 'rented') {
-                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:200mm鏡已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
-                }
-                if (slot.lens400 === 'rented') {
-                    icsContent += `BEGIN:VEVENT\n${dtstart}\nSUMMARY:400mm鏡已租${noteText ? ' (' + noteText + ')' : ''}\n${description}END:VEVENT\n`;
-                }
+                if (slot.phone   === 'rented') icsContent += makeEvent(dateRaw, time, `[frontrow] Vivo X300 手機已租`, loc, note);
+                if (slot.lens200 === 'rented') icsContent += makeEvent(dateRaw, time, `[frontrow] 200mm 鏡已租`,      loc, note);
+                if (slot.lens400 === 'rented') icsContent += makeEvent(dateRaw, time, `[frontrow] 400mm 鏡已租`,      loc, note);
             });
 
             icsContent += "END:VCALENDAR";
 
-            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'frontrow-rented-slots.ics';
+            link.download = `frontrow-rented-${year}.ics`;
             link.click();
         }
 
