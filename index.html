@@ -631,9 +631,18 @@
                 <!-- Save status message -->
                 <p id="admin-save-status" class="text-xs font-semibold text-center hidden"></p>
 
+                <!-- Add row toolbar -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <input type="date" id="new-slot-date-picker" class="bg-brand-50 border border-brand-200 rounded-card px-3 py-2 text-xs font-semibold focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                    <button onclick="addAdminSlotRow()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-card text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm">
+                        <i class="fa-solid fa-plus"></i> 新增這天
+                    </button>
+                    <span class="text-[11px] text-brand-lightText ml-1">選好日期後點新增，或直接在 Google Sheets 新增列亦可。</span>
+                </div>
+
                 <!-- Slots table -->
                 <div class="overflow-x-auto border border-brand-100 rounded-card">
-                    <table class="w-full text-left text-xs border-collapse min-w-[640px]">
+                    <table class="w-full text-left text-xs border-collapse min-w-[680px]">
                         <thead>
                             <tr class="bg-brand-100 text-brand-text font-bold">
                                 <th class="p-3 border-b border-brand-200 w-24">日期</th>
@@ -643,6 +652,7 @@
                                 <th class="p-3 border-b border-brand-200">400mm 鏡</th>
                                 <th class="p-3 border-b border-brand-200 w-28">面交時間</th>
                                 <th class="p-3 border-b border-brand-200">備註</th>
+                                <th class="p-3 border-b border-brand-200 w-10 text-center">刪</th>
                             </tr>
                         </thead>
                         <tbody id="admin-slots-table-body" class="divide-y divide-brand-100 bg-white text-brand-text">
@@ -1527,9 +1537,48 @@ ${blocks.join('\n\n')}
                         <input type="text" value="${(slot.note || '').replace(/"/g,'&quot;')}" onchange="updateAdminSlot(${idx},'note',this.value)"
                             placeholder="備註" class="w-full bg-brand-50 border border-brand-200 rounded p-1 text-xs">
                     </td>
+                    <td class="p-2.5 border-b border-brand-100 text-center">
+                        <button onclick="deleteAdminSlotRow(${idx})" class="text-rose-400 hover:text-rose-600 transition-colors p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function deleteAdminSlotRow(idx) {
+            slotsData.splice(idx, 1);
+            renderAdminSlotsTable();
+            generateSlotsGrid();
+        }
+
+        function addAdminSlotRow() {
+            const picker = document.getElementById('new-slot-date-picker');
+            if (!picker.value) {
+                alert('請先選擇日期');
+                return;
+            }
+            const d = new Date(picker.value + 'T12:00:00'); // noon to avoid timezone off-by-one
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            const dateStr = `${mm}/${dd}`;
+            // Prevent duplicate dates
+            if (slotsData.some(s => s.date === dateStr)) {
+                alert(`${dateStr} 已存在`);
+                return;
+            }
+            const dayStr = DAY_NAMES[d.getDay()];
+            slotsData.push({ date: dateStr, day: dayStr, phone: 'available', lens200: 'available', lens400: 'available', meetupTime: '', note: '' });
+            // Sort by date
+            slotsData.sort((a, b) => {
+                const [am, ad] = a.date.split('/').map(Number);
+                const [bm, bd] = b.date.split('/').map(Number);
+                return (am * 100 + ad) - (bm * 100 + bd);
+            });
+            picker.value = '';
+            renderAdminSlotsTable();
+            generateSlotsGrid();
         }
 
         function makeStateCycleBtn(idx, field, state) {
