@@ -591,7 +591,7 @@
 
     <!-- ================= MANAGEMENT SYSTEM MODAL ================= -->
     <div id="admin-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-brand max-w-md w-full shadow-2xl border border-brand-200 p-6 md:p-8 space-y-6">
+        <div class="bg-white rounded-brand max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-brand-200 p-6 md:p-8 space-y-6">
             <div class="flex justify-between items-center border-b border-brand-100 pb-4">
                 <h3 class="font-bold text-brand-text text-lg flex items-center gap-2">
                     <i class="fa-solid fa-sliders text-brand-400"></i> frontrow.rental 系統
@@ -601,7 +601,7 @@
 
             <!-- Password Screen -->
             <div id="admin-login-screen" class="space-y-4 py-8 text-center max-w-sm mx-auto">
-                <p class="text-sm text-brand-lightText">：</p>
+                <p class="text-sm text-brand-lightText">請輸入管理密碼：</p>
                 <div class="flex gap-2">
                     <input type="password" id="admin-password-input" class="w-full bg-brand-50 border border-brand-200 p-3 rounded-card text-center focus:ring-2 focus:ring-brand-400 focus:outline-none" placeholder="輸入密碼">
                     <button onclick="checkAdminPassword()" class="bg-brand-500 hover:bg-brand-600 text-white px-6 rounded-card text-sm font-semibold whitespace-nowrap transition-colors">驗證</button>
@@ -609,19 +609,57 @@
                 <p id="admin-login-error" class="text-xs text-rose-500 hidden font-semibold"></p>
             </div>
 
-            <!-- Admin Panel (after login) -->
-            <div id="admin-editor-screen" class="space-y-4 hidden">
-                <div class="bg-brand-50 rounded-card p-4 border border-brand-200/50 space-y-3 text-center">
-                    <p class="text-xs text-brand-lightText"><i class="fa-solid fa-circle-info text-brand-400"></i> 時段、須知、FAQ 資料全部由 Google Sheets 管理，直接在試算表編輯即可即時生效。</p>
-                    <a id="sheets-admin-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-card text-sm font-bold transition-colors shadow">
-                        <i class="fa-solid fa-table"></i> 開啟 Google Sheets 管理
-                    </a>
+            <!-- Admin Editor Screen -->
+            <div id="admin-editor-screen" class="space-y-5 hidden">
+
+                <!-- Top action bar -->
+                <div class="bg-brand-50 p-4 rounded-card border border-brand-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <p class="text-[11px] text-brand-lightText leading-relaxed">
+                        <i class="fa-solid fa-circle-info text-brand-400"></i>
+                        在下方修改時段狀態後，點「<strong>儲存到 Google Sheets</strong>」即可同步。須知、FAQ 請直接在試算表修改。
+                    </p>
+                    <div class="flex flex-wrap gap-2 shrink-0">
+                        <button onclick="refreshFromSheets()" class="bg-white hover:bg-brand-50 border border-brand-200 text-brand-500 px-3 py-2 rounded-card text-xs font-bold flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-rotate"></i> 從 Sheets 重新載入
+                        </button>
+                        <button onclick="saveToSheets()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-card text-xs font-bold flex items-center gap-1.5 shadow-md transition-all">
+                            <i class="fa-solid fa-floppy-disk"></i> 儲存到 Google Sheets
+                        </button>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <button onclick="exportToICS()" class="inline-flex items-center gap-2 bg-brand-100 hover:bg-brand-200 text-brand-600 px-5 py-2.5 rounded-card text-sm font-bold transition-colors border border-brand-200">
-                        <i class="fa-regular fa-calendar-plus"></i> 匯出已租檔期為行事曆 (ICS)
+
+                <!-- Save status message -->
+                <p id="admin-save-status" class="text-xs font-semibold text-center hidden"></p>
+
+                <!-- Slots table -->
+                <div class="overflow-x-auto border border-brand-100 rounded-card">
+                    <table class="w-full text-left text-xs border-collapse min-w-[640px]">
+                        <thead>
+                            <tr class="bg-brand-100 text-brand-text font-bold">
+                                <th class="p-3 border-b border-brand-200 w-24">日期</th>
+                                <th class="p-3 border-b border-brand-200 w-12">星期</th>
+                                <th class="p-3 border-b border-brand-200">Vivo X300 Ultra</th>
+                                <th class="p-3 border-b border-brand-200">200mm 鏡</th>
+                                <th class="p-3 border-b border-brand-200">400mm 鏡</th>
+                                <th class="p-3 border-b border-brand-200 w-28">面交時間</th>
+                                <th class="p-3 border-b border-brand-200">備註</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-slots-table-body" class="divide-y divide-brand-100 bg-white text-brand-text">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Quick links -->
+                <div class="flex flex-wrap gap-3 pt-2 border-t border-brand-100">
+                    <a id="sheets-admin-link" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-emerald-600 hover:text-emerald-800 font-bold">
+                        <i class="fa-solid fa-table"></i> 開啟 Google Sheets（須知 / FAQ）
+                    </a>
+                    <button onclick="exportToICS()" class="inline-flex items-center gap-1.5 text-xs text-brand-500 hover:text-brand-700 font-bold">
+                        <i class="fa-regular fa-calendar-plus"></i> 匯出已租 ICS 行事曆
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -773,7 +811,7 @@
         // 將 SHEETS_URL 換成 Google Sheet 的分享連結（供後台管理員快速開啟）
         // =========================================================================
         const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbz5IHXZbprtag1A0hPDIkk5n-ahxQxGc17nlC8PHTV9CoYCy9wcRGzjNJQCG3eaQanF/exec';
-        const SHEETS_URL     = 'https://script.google.com/macros/s/AKfycbz5IHXZbprtag1A0hPDIkk5n-ahxQxGc17nlC8PHTV9CoYCy9wcRGzjNJQCG3eaQanF/exec';
+        const SHEETS_URL     = 'https://docs.google.com/spreadsheets/d/1mXlME6BW_3SHwrVcnMa1AA_6gsn5WfQfsawYCY28DUc/edit';
 
         // Dynamic State mapping for UI selection conflict calculation
         let blockedSlotsMap = { 'Vivo X300 Ultra': [], '200mm 增距鏡': [], '400mm 增距鏡': [] };
@@ -1395,6 +1433,7 @@ ${blocks.join('\n\n')}
                 document.getElementById('admin-login-screen').classList.add('hidden');
                 document.getElementById('admin-editor-screen').classList.remove('hidden');
                 document.getElementById('sheets-admin-link').href = SHEETS_URL;
+                renderAdminSlotsTable();
             } else {
                 // Failed
                 let failedAttempts = parseInt(localStorage.getItem('admin_failed_attempts') || '0') + 1;
@@ -1412,29 +1451,162 @@ ${blocks.join('\n\n')}
         }
 
         // =========================================================================
+        // Google Sheets 資料正規化 — 修正日期格式、補全空白欄位
+        // =========================================================================
+        const VALID_STATES = ['available', 'rented', 'pending', 'unavailable'];
+        const DAY_NAMES = ['日', '一', '二', '三', '四', '五', '六'];
+
+        function normalizeSlots(rawSlots) {
+            return rawSlots.filter(s => s.date).map(slot => {
+                // Google Sheets Date cells come back as full JS date strings — convert to MM/DD
+                const d = new Date(slot.date);
+                if (!isNaN(d.getTime())) {
+                    const mm = String(d.getMonth() + 1).padStart(2, '0');
+                    const dd = String(d.getDate()).padStart(2, '0');
+                    slot.date = `${mm}/${dd}`;
+                }
+                // Auto-fill day of week if missing
+                if (!slot.day || !slot.day.toString().trim()) {
+                    const [mm, dd] = slot.date.split('/');
+                    const yr = new Date().getFullYear();
+                    slot.day = DAY_NAMES[new Date(yr, parseInt(mm) - 1, parseInt(dd)).getDay()];
+                }
+                // Empty / invalid status → available
+                const fix = v => VALID_STATES.includes(String(v).trim()) ? String(v).trim() : 'available';
+                slot.phone   = fix(slot.phone);
+                slot.lens200 = fix(slot.lens200);
+                slot.lens400 = fix(slot.lens400);
+                slot.meetupTime = slot.meetupTime || '';
+                slot.note       = slot.note || '';
+                return slot;
+            });
+        }
+
+        // =========================================================================
         // 頁面載入 — 先從 Google Sheets 抓資料，失敗則 fallback 到內建資料
         // =========================================================================
         window.onload = async function() {
-            if (SHEETS_API_URL && SHEETS_API_URL !== 'YOUR_APPS_SCRIPT_DEPLOY_URL_HERE') {
-                try {
-                    const res = await fetch(SHEETS_API_URL);
-                    const data = await res.json();
-                    if (Array.isArray(data.slots)   && data.slots.length)   slotsData   = data.slots;
-                    if (Array.isArray(data.notices) && data.notices.length) noticesData = data.notices;
-                    if (Array.isArray(data.faqs)    && data.faqs.length)    faqsData    = data.faqs;
-                } catch (e) {
-                    console.warn('Google Sheets 讀取失敗，使用內建備份資料', e);
-                }
-            }
+            await loadFromSheets();
             calculatePrice();
             renderNoticesUI();
             renderFaqsUI();
             generateSlotsGrid();
         }
 
-        // -- end of script --
-        if (false) { // dead-code fence (never executes) — delete entire block once Sheets is wired up
-        function _dead_renderAdminSlotsTable() {
+        async function loadFromSheets() {
+            try {
+                const res  = await fetch(SHEETS_API_URL);
+                const data = await res.json();
+                if (Array.isArray(data.slots)   && data.slots.length)   slotsData   = normalizeSlots(data.slots);
+                if (Array.isArray(data.notices) && data.notices.length) noticesData = data.notices;
+                if (Array.isArray(data.faqs)    && data.faqs.length)    faqsData    = data.faqs;
+            } catch (e) {
+                console.warn('Google Sheets 讀取失敗，使用內建備份資料', e);
+            }
+        }
+
+        // =========================================================================
+        // 後台 — 時段狀態表
+        // =========================================================================
+        function renderAdminSlotsTable() {
+            const tbody = document.getElementById('admin-slots-table-body');
+            tbody.innerHTML = '';
+            slotsData.forEach((slot, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2.5 border-b border-brand-100 font-semibold">${slot.date}</td>
+                    <td class="p-2.5 border-b border-brand-100 text-center">${slot.day}</td>
+                    <td class="p-2.5 border-b border-brand-100">${makeStateCycleBtn(idx, 'phone', slot.phone)}</td>
+                    <td class="p-2.5 border-b border-brand-100">${makeStateCycleBtn(idx, 'lens200', slot.lens200)}</td>
+                    <td class="p-2.5 border-b border-brand-100">${makeStateCycleBtn(idx, 'lens400', slot.lens400)}</td>
+                    <td class="p-2.5 border-b border-brand-100">
+                        <input type="time" value="${slot.meetupTime || ''}" onchange="updateAdminSlot(${idx},'meetupTime',this.value)"
+                            class="w-24 bg-brand-50 border border-brand-200 rounded p-1 text-xs">
+                    </td>
+                    <td class="p-2.5 border-b border-brand-100">
+                        <input type="text" value="${(slot.note || '').replace(/"/g,'&quot;')}" onchange="updateAdminSlot(${idx},'note',this.value)"
+                            placeholder="備註" class="w-full bg-brand-50 border border-brand-200 rounded p-1 text-xs">
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function makeStateCycleBtn(idx, field, state) {
+            const map = {
+                available:   { label: '可預約',   cls: 'bg-emerald-50 text-emerald-600 border-emerald-200' },
+                pending:     { label: '洽中',     cls: 'bg-amber-50 text-amber-600 border-amber-200' },
+                rented:      { label: '已租借',   cls: 'bg-neutral-100 text-neutral-500 border-neutral-200' },
+                unavailable: { label: '暫不開放', cls: 'bg-rose-50 text-rose-500 border-rose-200' }
+            };
+            const s = map[state] || map.available;
+            return `<button onclick="cycleAdminSlot(${idx},'${field}')"
+                class="w-full py-1 px-2 rounded border text-[11px] font-bold transition-all ${s.cls}">${s.label}</button>`;
+        }
+
+        function cycleAdminSlot(idx, field) {
+            const order = ['available', 'pending', 'rented', 'unavailable'];
+            const cur = slotsData[idx][field];
+            slotsData[idx][field] = order[(order.indexOf(cur) + 1) % order.length];
+            renderAdminSlotsTable();
+            generateSlotsGrid();
+        }
+
+        function updateAdminSlot(idx, field, value) {
+            slotsData[idx][field] = value;
+            generateSlotsGrid();
+        }
+
+        // =========================================================================
+        // 後台 — 儲存到 Google Sheets（Apps Script POST 必須用 no-cors；送出後 re-fetch 驗證）
+        // =========================================================================
+        async function saveToSheets() {
+            const statusEl = document.getElementById('admin-save-status');
+            statusEl.textContent = '儲存中...';
+            statusEl.className = 'text-xs font-semibold text-center text-brand-400';
+            statusEl.classList.remove('hidden');
+            try {
+                // Apps Script web apps redirect 302 on POST → use no-cors to avoid response-read errors
+                await fetch(SHEETS_API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ slots: slotsData }),
+                    headers: { 'Content-Type': 'text/plain' }  // no-cors only allows simple headers
+                });
+                // Wait briefly then re-fetch to confirm data was written
+                await new Promise(r => setTimeout(r, 1500));
+                await loadFromSheets();
+                renderAdminSlotsTable();
+                generateSlotsGrid();
+                statusEl.textContent = '已成功儲存到 Google Sheets！';
+                statusEl.className = 'text-xs font-semibold text-center text-emerald-600';
+            } catch (e) {
+                statusEl.textContent = '儲存失敗：' + e.message;
+                statusEl.className = 'text-xs font-semibold text-center text-rose-500';
+            }
+            setTimeout(() => statusEl.classList.add('hidden'), 4000);
+        }
+
+        // =========================================================================
+        // 後台 — 從 Sheets 重新載入並刷新畫面
+        // =========================================================================
+        async function refreshFromSheets() {
+            const statusEl = document.getElementById('admin-save-status');
+            statusEl.textContent = '重新載入中...';
+            statusEl.className = 'text-xs font-semibold text-center text-brand-400';
+            statusEl.classList.remove('hidden');
+            await loadFromSheets();
+            renderAdminSlotsTable();
+            renderNoticesUI();
+            renderFaqsUI();
+            generateSlotsGrid();
+            statusEl.textContent = '已從 Google Sheets 重新載入！';
+            statusEl.className = 'text-xs font-semibold text-center text-emerald-600';
+            setTimeout(() => statusEl.classList.add('hidden'), 3000);
+        }
+
+        if (false) { // legacy dead code — never executes
+        function _legacy_stub() {
             const tableBody = document.getElementById('admin-slots-table-body');
             tableBody.innerHTML = '';
 
